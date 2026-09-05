@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+:root {
+  --ink: #0b1210;
+  --ink-soft: #14201c;
+  --fog: #c8d4ce;
+  --mist: #8fa399;
+  --paper: #e8f0eb;
+  --signal: #b8f255;
+  --signal-dim: #7aab2e;
+  --danger: #ff6b5a;
+  --warn: #f0c35a;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-fog: var(--fog);
+  --color-mist: var(--mist);
+  --color-paper: var(--paper);
+  --color-signal: var(--signal);
+  --color-signal-dim: var(--signal-dim);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--paper);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(184, 242, 85, 0.12), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(143, 163, 153, 0.15), transparent 50%),
+    linear-gradient(165deg, var(--ink) 0%, var(--ink-soft) 55%, #0a1612 100%);
+  background-attachment: fixed;
+}
+
+/* Subtle grid texture for a diagnostic-instrument feel */
+body::before {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  opacity: 0.04;
+  background-image:
+    linear-gradient(var(--fog) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fog) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-signal {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(184, 242, 85, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(184, 242, 85, 0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.45s ease-out both;
+}
+
+.animate-pulse-signal {
+  animation: pulse-signal 1.8s ease-out infinite;
+}

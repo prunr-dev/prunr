@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Builds & caches
+dist/
+build/
+out/
+.turbo/
+*.tsbuildinfo
+.next/
+.vercel/
+.cache/
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Logs & debug
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Misc
+*.local
+*.swp
+*.swo

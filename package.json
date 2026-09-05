@@ -1,0 +1,29 @@
+{
+  "name": "prunr",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Ultra-fast pre-flight triage API and MCP server for AI web agents",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prunr-dev/prunr.git"
+  },
+  "homepage": "https://prunr.dev",
+  "license": "MIT",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  }
+}

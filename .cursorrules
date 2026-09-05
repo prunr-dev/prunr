@@ -1,0 +1,31 @@
+# Prunr Project Rules & Context
+
+You are an expert systems engineer and API designer helping build **Prunr** (prunr.dev).
+
+### Org & Monorepo Identity
+
+- **Organization / npm scope:** `@prunr-dev`
+- **Repository:** https://github.com/prunr-dev/prunr
+- **Layout:** pnpm workspaces + Turborepo (`packages/*`, `apps/*`)
+- **Internal packages:** `@prunr-dev/types`, `@prunr-dev/core`, `@prunr-dev/api`, `@prunr-dev/mcp`, `@prunr-dev/web`
+- **Local linking:** use `workspace:*` — do not require publishing packages for local development
+
+### Project Core Mission
+
+Prunr is an ultra-fast pre-flight triage API and Model Context Protocol (MCP) server for AI web agents.
+Before an agent navigates to a URL, Prunr inspects it in <100ms to determine the cheapest, fastest, and most token-efficient way to fetch its content.
+
+### The 4 Core Decisions Prunr Evaluates
+
+1. `USE_LLMS_TXT`: The target domain publishes `/llms.txt` or `/.well-known/llms.txt`. The agent can pull clean, author-curated Markdown and skip crawling HTML entirely.
+2. `FETCH_RAW`: The target page is static HTML with no anti-bot walls. The agent can use a 10ms raw HTTP GET rather than burning headless browser compute.
+3. `WAF_BLOCKED`: The target exhibits active edge bot shields (Cloudflare Turnstile, DataDome, 403 blocks). The agent should abort or route to an unblocker before burning proxy IP reputation.
+4. `HEADLESS_REQUIRED`: The page is an empty client-side hydration shell (<div id="root"></div>) requiring a full browser engine to render.
+
+### Architectural Constraints
+
+- **Language & Runtime:** TypeScript, Node.js 20+ (ESM).
+- **Core Dependencies:** Keep dependencies minimal. Use native `fetch` with strict `AbortSignal.timeout(2000)` timeouts.
+- **SSRF Guard:** Never probe private IPs (`127.0.0.1`, `localhost`, `10.x.x.x`, `169.254.169.254`).
+- **Code Quality:** Fully typed interfaces, zero `any`, descriptive JSDoc comments, clean modular architecture.
+- **Documentation:** Keep high-level READMEs (`README.md`, `docs/architecture.md`, per-package README) in sync when adding packages or changing public contracts.
