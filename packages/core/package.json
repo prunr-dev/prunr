@@ -16,17 +16,18 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rm -rf dist *.tsbuildinfo",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "echo \"no tests yet\""
+    "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {
     "@prunr-dev/types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "engines": {

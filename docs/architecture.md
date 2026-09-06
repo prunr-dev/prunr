@@ -48,14 +48,18 @@ Agent / IDE / Browser
 
 Implemented in `@prunr-dev/core` (see that package README):
 
-1. **SSRF & protocol** — HTTP/HTTPS only; block private / metadata IPs.
-2. **Parallel probes** — origin page + `/llms.txt` + `/.well-known/llms.txt` (2s timeout).
+1. **SSRF & protocol** — HTTP/HTTPS only; DNS lookup; block private / metadata IPs (fail closed).
+2. **Parallel probes** — origin GET (4KB body cap) + `/llms.txt` + `/.well-known/llms.txt` under one 2s `AbortSignal`.
 3. **Shield heuristics** — Cloudflare, Turnstile, DataDome from headers/cookies/body snippet.
-4. **Synthesize** — pick a `TriageAction` and return `TriageResult`.
+4. **SPA shell check** — conservative empty-hydration heuristic → `HEADLESS_REQUIRED`.
+5. **Synthesize** — pick a `TriageAction` by priority and return `TriageResult`.
+
+Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS_REQUIRED` → `FETCH_RAW`.
 
 ## Error model
 
-API failures use **RFC 7807** Problem Details (`application/problem+json`), defined in `@prunr-dev/types` (`ProblemDetails`, `Problems` helpers).
+- **Agent-facing probe outcomes** (timeout, DNS failure, network error) stay HTTP `200` with `TriageResult.action = ERROR_UNREACHABLE`.
+- **Invalid URL / SSRF blocks** are mapped by the API to **RFC 7807** Problem Details (`application/problem+json`), defined in `@prunr-dev/types` (`ProblemDetails`, `Problems` helpers).
 
 ## Apps (entry points)
 

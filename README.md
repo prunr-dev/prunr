@@ -75,4 +75,4 @@ pnpm --filter @prunr-dev/core typecheck
 
 ## Status
 
-Phase 1 foundation complete: monorepo, shared contracts, core probe stubs, API, MCP, and web visualizer scaffolds. Live network probing lands next.
+Phase 1 foundation is in place (monorepo, shared contracts, API, MCP, web). **Phase 2 live probes** run in `@prunr-dev/core`: SSRF DNS checks, capped origin fetch, llms.txt discovery, shield/SPA heuristics, and action synthesis under a 2s budget.

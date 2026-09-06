@@ -5,16 +5,26 @@
  * to their transport. Do not add framework adapters in this package.
  */
 
-export { probeUrl, PROBE_TIMEOUT_MS, TOKEN_SAVINGS_BY_ACTION } from './probe.js';
+export {
+  probeUrl,
+  synthesizeAction,
+  PROBE_TIMEOUT_MS,
+  TOKEN_SAVINGS_BY_ACTION,
+  type ProbeUrlOptions,
+} from './probe.js';
 
 export {
   validateProbeTarget,
+  isDisallowedIp,
   type SsrfValidationResult,
+  type DnsLookupFn,
+  type ValidateProbeTargetOptions,
 } from './ssrf.js';
 
 export {
   discoverLlmsTxt,
   emptyLlmsTxtDiscovery,
+  isTextishContentType,
   LLMS_TXT_PATHS,
 } from './llms-txt.js';
 
@@ -23,3 +33,5 @@ export {
   emptyShieldTelemetry,
   type ShieldInspectionInput,
 } from './shields.js';
+
+export { looksLikeSpaShell } from './spa.js';
