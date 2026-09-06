@@ -8,16 +8,16 @@ Operators and agent authors need a quick UI to see what Prunr would recommend â€
 
 ## Files
 
-| Path | Purpose |
-| --- | --- |
-| `src/app/layout.tsx` | Root shell, fonts, `data-theme="corduroy"` |
-| `src/app/page.tsx` | Brand-forward triage workspace |
-| `src/app/globals.css` | Tailwind 4 + daisyUI + Corduroy theme + motion |
-| `src/components/TriageForm.tsx` | Form, presets, `?url=` sync, result panel |
-| `src/lib/api.ts` | Fetch helper + env-based API base URL |
-| `src/lib/presets.ts` | Demo URL chips (labels may drift vs live sites) |
-| `next.config.ts` | `transpilePackages: ['@prunr-dev/types']` |
-| `.env.example` | `NEXT_PUBLIC_PRUNR_API_URL` |
+| Path                            | Purpose                                         |
+| ------------------------------- | ----------------------------------------------- |
+| `src/app/layout.tsx`            | Root shell, fonts, `data-theme="corduroy"`      |
+| `src/app/page.tsx`              | Brand-forward triage workspace                  |
+| `src/app/globals.css`           | Tailwind 4 + daisyUI + Corduroy theme + motion  |
+| `src/components/TriageForm.tsx` | Form, presets, `?url=` sync, result panel       |
+| `src/lib/api.ts`                | Fetch helper + env-based API base URL           |
+| `src/lib/presets.ts`            | Demo URL chips (labels may drift vs live sites) |
+| `next.config.ts`                | `transpilePackages: ['@prunr-dev/types']`       |
+| `.env.example`                  | `NEXT_PUBLIC_PRUNR_API_URL`                     |
 
 ## Theme
 

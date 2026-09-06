@@ -4,13 +4,13 @@ Ultra-fast pre-flight triage for AI web agents.
 
 Before an agent fetches a URL, Prunr inspects it in under ~100ms and recommends the cheapest, fastest way to get the content:
 
-| Action | Meaning |
-| --- | --- |
-| `USE_LLMS_TXT` | Domain publishes curated Markdown — skip HTML crawl |
-| `FETCH_RAW` | Static HTML, no bot wall — plain HTTP GET is enough |
-| `HEADLESS_REQUIRED` | Empty SPA shell — needs a browser engine |
-| `WAF_BLOCKED` | Edge bot shield detected — abort or route to unblocker |
-| `ERROR_UNREACHABLE` | Timeout, DNS failure, SSRF block, or network error |
+| Action              | Meaning                                                |
+| ------------------- | ------------------------------------------------------ |
+| `USE_LLMS_TXT`      | Domain publishes curated Markdown — skip HTML crawl    |
+| `FETCH_RAW`         | Static HTML, no bot wall — plain HTTP GET is enough    |
+| `HEADLESS_REQUIRED` | Empty SPA shell — needs a browser engine               |
+| `WAF_BLOCKED`       | Edge bot shield detected — abort or route to unblocker |
+| `ERROR_UNREACHABLE` | Timeout, DNS failure, SSRF block, or network error     |
 
 **Org:** [`prunr-dev`](https://github.com/prunr-dev) · **Repo:** [prunr-dev/prunr](https://github.com/prunr-dev/prunr) · **Site:** [prunr.dev](https://prunr.dev)
 
@@ -34,18 +34,19 @@ prunr/
 └── turbo.json
 ```
 
-See [docs/architecture.md](docs/architecture.md) for how data flows between packages.
+See [docs/architecture.md](docs/architecture.md) for how data flows between packages, or [docs/eli5.md](docs/eli5.md) for a plain-language walkthrough.
 
 ### Root config files
 
-| File | Purpose |
-| --- | --- |
-| `pnpm-workspace.yaml` | Declares `packages/*` and `apps/*` as workspace members |
-| `package.json` | Private root; `pnpm build` / `dev` / `lint` / `test` / `typecheck` via Turbo |
-| `tsconfig.base.json` | Strict shared TypeScript settings (NodeNext ESM) |
-| `turbo.json` | Task graph and cache outputs across the monorepo |
-| `.npmrc` | pnpm peer-dependency defaults |
-| `.cursorrules` | Project mission and coding constraints for AI assistants |
+| File                  | Purpose                                                                                 |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| `pnpm-workspace.yaml` | Declares `packages/*` and `apps/*` as workspace members                                 |
+| `package.json`        | Private root; `pnpm build` / `dev` / `lint` / `test` / `typecheck` / `format` via Turbo |
+| `tsconfig.base.json`  | Strict shared TypeScript settings (NodeNext ESM)                                        |
+| `turbo.json`          | Task graph and cache outputs across the monorepo                                        |
+| `.prettierrc.json`    | Shared Prettier formatting                                                              |
+| `.npmrc`              | pnpm peer-dependency defaults                                                           |
+| `.cursorrules`        | Project mission and coding constraints for AI assistants                                |
 
 ## Getting started
 
@@ -94,10 +95,10 @@ Visualizer: [prunr.dev](https://prunr.dev) (or `pnpm --filter @prunr-dev/web dev
 
 Two projects from the same repo:
 
-| Project | Root Directory | Key env |
-| --- | --- | --- |
-| Web | `apps/web` | `NEXT_PUBLIC_PRUNR_API_URL=https://api.prunr.dev` |
-| API | `apps/api` | `CORS_ORIGINS=https://prunr.dev,...` · Upstash Redis REST URL/token |
+| Project | Root Directory | Key env                                                             |
+| ------- | -------------- | ------------------------------------------------------------------- |
+| Web     | `apps/web`     | `NEXT_PUBLIC_PRUNR_API_URL=https://api.prunr.dev`                   |
+| API     | `apps/api`     | `CORS_ORIGINS=https://prunr.dev,...` · Upstash Redis REST URL/token |
 
 Enable “include files outside root directory” so workspace packages resolve. See [`apps/api/README.md`](apps/api/README.md) and [`apps/web/README.md`](apps/web/README.md).
 

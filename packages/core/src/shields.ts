@@ -82,9 +82,7 @@ export function inspectShields(input: ShieldInspectionInput): ShieldTelemetry {
     hasCloudflare = true;
     hasTurnstile = true;
   }
-  if (
-    /challenges\.cloudflare\.com|turnstile|cf-turnstile/i.test(bodyLower)
-  ) {
+  if (/challenges\.cloudflare\.com|turnstile|cf-turnstile/i.test(bodyLower)) {
     evidence.push('body:turnstile');
     hasCloudflare = true;
     hasTurnstile = true;

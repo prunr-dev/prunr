@@ -8,23 +8,23 @@ Agents and the web UI need a simple HTTP surface. This app validates input, appl
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `src/app.ts` | Hono routes (`/health`, `/v1/triage`), CORS, cache, rate limit |
-| `src/env.ts` | `CORS_ORIGINS`, Upstash detection, API version |
-| `src/cache.ts` | 60s Upstash Redis triage cache (fail-open) |
-| `src/rate-limit.ts` | Per-IP Upstash Ratelimit ~30/min (fail-open) |
-| `src/index.ts` | Local Node server (`@hono/node-server`) |
-| `api/index.ts` | Vercel serverless entry (`hono/vercel`) |
-| `vercel.json` | Rewrite all paths to the serverless function |
-| `.env.example` | Env template |
+| File                | Purpose                                                        |
+| ------------------- | -------------------------------------------------------------- |
+| `src/app.ts`        | Hono routes (`/health`, `/v1/triage`), CORS, cache, rate limit |
+| `src/env.ts`        | `CORS_ORIGINS`, Upstash detection, API version                 |
+| `src/cache.ts`      | 60s Upstash Redis triage cache (fail-open)                     |
+| `src/rate-limit.ts` | Per-IP Upstash Ratelimit ~30/min (fail-open)                   |
+| `src/index.ts`      | Local Node server (`@hono/node-server`)                        |
+| `api/index.ts`      | Vercel serverless entry (`hono/vercel`)                        |
+| `vercel.json`       | Rewrite all paths to the serverless function                   |
+| `.env.example`      | Env template                                                   |
 
 ## Endpoints
 
-| Method | Path | Description |
-| --- | --- | --- |
-| `GET` | `/health` | `{ ok, service, version }` |
-| `GET` | `/v1/triage?url=` | `200` + `TriageResult`, or `application/problem+json` |
+| Method | Path              | Description                                           |
+| ------ | ----------------- | ----------------------------------------------------- |
+| `GET`  | `/health`         | `{ ok, service, version }`                            |
+| `GET`  | `/v1/triage?url=` | `200` + `TriageResult`, or `application/problem+json` |
 
 Example:
 
@@ -37,12 +37,12 @@ Default port: **8787** (override with `PORT`).
 
 ## Environment
 
-| Variable | Purpose |
-| --- | --- |
-| `PORT` | Local listen port (default `8787`) |
-| `CORS_ORIGINS` | Comma-separated allowed origins (defaults include localhost + `https://prunr.dev`) |
-| `UPSTASH_REDIS_REST_URL` | Optional Redis for cache + rate limit |
-| `UPSTASH_REDIS_REST_TOKEN` | Optional Redis token |
+| Variable                   | Purpose                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------- |
+| `PORT`                     | Local listen port (default `8787`)                                                 |
+| `CORS_ORIGINS`             | Comma-separated allowed origins (defaults include localhost + `https://prunr.dev`) |
+| `UPSTASH_REDIS_REST_URL`   | Optional Redis for cache + rate limit                                              |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional Redis token                                                               |
 
 Without Upstash credentials, rate limit and cache are skipped (fail-open) so local demos keep working.
 

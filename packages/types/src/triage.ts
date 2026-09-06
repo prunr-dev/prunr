@@ -16,20 +16,13 @@ export type LlmsTxtPath = '/llms.txt' | '/.well-known/llms.txt';
 
 /** Bot-shield / WAF vendors detectable via passive header, cookie, or body signals. */
 export type ShieldVendor =
-  | 'cloudflare'
-  | 'cloudflare_turnstile'
-  | 'datadome'
-  | 'unknown';
+  'cloudflare' | 'cloudflare_turnstile' | 'datadome' | 'unknown';
 
 /**
  * Machine-readable probe failure codes used internally and optionally on Problem Details.
  */
 export type ProbeErrorCode =
-  | 'SSRF_BLOCKED'
-  | 'TIMEOUT'
-  | 'DNS_FAILURE'
-  | 'NETWORK'
-  | 'INVALID_URL';
+  'SSRF_BLOCKED' | 'TIMEOUT' | 'DNS_FAILURE' | 'NETWORK' | 'INVALID_URL';
 
 /**
  * Signals collected during passive header/cookie/body inspection.

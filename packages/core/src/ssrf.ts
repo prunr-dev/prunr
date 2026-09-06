@@ -6,8 +6,7 @@ import type { ProbeErrorCode } from '@prunr-dev/types';
  * Outcome of Step A (SSRF / protocol sanitation).
  */
 export type SsrfValidationResult =
-  | { ok: true; url: URL }
-  | { ok: false; code: ProbeErrorCode; reason: string };
+  { ok: true; url: URL } | { ok: false; code: ProbeErrorCode; reason: string };
 
 /**
  * DNS lookup compatible with `dns.promises.lookup(..., { all: true })`.
@@ -77,11 +76,7 @@ export async function validateProbeTarget(
   }
 
   const host = parsed.hostname.toLowerCase();
-  if (
-    host === 'localhost' ||
-    host === '0.0.0.0' ||
-    host.endsWith('.local')
-  ) {
+  if (host === 'localhost' || host === '0.0.0.0' || host.endsWith('.local')) {
     return {
       ok: false,
       code: 'SSRF_BLOCKED',
@@ -173,9 +168,7 @@ function normalizeIpLiteral(address: string): NormalizedIp | null {
   return null;
 }
 
-function parseIpv4(
-  value: string,
-): [number, number, number, number] | null {
+function parseIpv4(value: string): [number, number, number, number] | null {
   const parts = value.split('.');
   if (parts.length !== 4) {
     return null;

@@ -73,7 +73,8 @@ export async function fetchOrigin(
         reason: 'Probe timed out waiting for the origin response.',
       };
     }
-    const message = err instanceof Error ? err.message : 'Unknown network error';
+    const message =
+      err instanceof Error ? err.message : 'Unknown network error';
     return {
       ok: false,
       error: 'network',

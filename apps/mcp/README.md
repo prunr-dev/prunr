@@ -10,15 +10,15 @@ Many AI agents already speak MCP. Shipping a stdio server lets those hosts call 
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
+| File            | Purpose                                           |
+| --------------- | ------------------------------------------------- |
 | `src/server.ts` | Registers the `triage_url` tool on an `McpServer` |
-| `src/index.ts` | stdio transport entry (`serveStdio`) |
+| `src/index.ts`  | stdio transport entry (`serveStdio`)              |
 
 ## Tool: `triage_url`
 
-| Input | Type | Description |
-| --- | --- | --- |
+| Input | Type         | Description                     |
+| ----- | ------------ | ------------------------------- |
 | `url` | string (URL) | Absolute http(s) URL to inspect |
 
 Returns JSON text content: a serialized `TriageResult` from `@prunr-dev/types`.

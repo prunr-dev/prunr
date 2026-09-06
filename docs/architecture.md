@@ -1,6 +1,6 @@
 # Architecture
 
-High-level map of how Prunr pieces fit together. Keep this doc short; package READMEs own the details.
+High-level map of how Prunr pieces fit together. Keep this doc short; package READMEs own the details. For a plain-language walkthrough, see [eli5.md](./eli5.md).
 
 ## Goals
 
@@ -48,11 +48,11 @@ Agent / IDE / Browser
 
 ## Deploy topology (MVP)
 
-| Surface | Host | Notes |
-| --- | --- | --- |
-| Web | Vercel project → `apps/web` | `NEXT_PUBLIC_PRUNR_API_URL` |
-| API | Vercel project → `apps/api` | `api/index.ts` + `CORS_ORIGINS` + Upstash |
-| MCP | Local stdio | Same engine; zero-install try via hosted REST |
+| Surface | Host                        | Notes                                         |
+| ------- | --------------------------- | --------------------------------------------- |
+| Web     | Vercel project → `apps/web` | `NEXT_PUBLIC_PRUNR_API_URL`                   |
+| API     | Vercel project → `apps/api` | `api/index.ts` + `CORS_ORIGINS` + Upstash     |
+| MCP     | Local stdio                 | Same engine; zero-install try via hosted REST |
 
 ## Probe pipeline (core)
 
@@ -74,10 +74,10 @@ Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS
 
 ## Apps (entry points)
 
-| App | Package | Transport | Notes |
-| --- | --- | --- | --- |
-| API | `@prunr-dev/api` | HTTP (Hono) | `GET /v1/triage?url=`, `GET /health` |
-| MCP | `@prunr-dev/mcp` | stdio MCP | tool `triage_url` → JSON `TriageResult` |
-| Web | `@prunr-dev/web` | Next.js + daisyUI | Corduroy visualizer → REST |
+| App | Package          | Transport         | Notes                                   |
+| --- | ---------------- | ----------------- | --------------------------------------- |
+| API | `@prunr-dev/api` | HTTP (Hono)       | `GET /v1/triage?url=`, `GET /health`    |
+| MCP | `@prunr-dev/mcp` | stdio MCP         | tool `triage_url` → JSON `TriageResult` |
+| Web | `@prunr-dev/web` | Next.js + daisyUI | Corduroy visualizer → REST              |
 
 Both API and MCP call `probeUrl()` from `@prunr-dev/core` only; they must not reimplement triage heuristics.

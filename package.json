@@ -19,10 +19,13 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "prettier": "^3.5.3",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   }

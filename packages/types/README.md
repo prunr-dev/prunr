@@ -8,11 +8,11 @@ REST, MCP, and the web UI must agree on the shape of a triage response and API e
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
+| File            | Purpose                                                                    |
+| --------------- | -------------------------------------------------------------------------- |
 | `src/triage.ts` | `TriageAction`, `TriageResult`, `ProbeSignals`, shield / llms.txt metadata |
-| `src/errors.ts` | RFC 7807 `ProblemDetails`, `createProblemDetails`, `Problems` factories |
-| `src/index.ts` | Public barrel re-exports |
+| `src/errors.ts` | RFC 7807 `ProblemDetails`, `createProblemDetails`, `Problems` factories    |
+| `src/index.ts`  | Public barrel re-exports                                                   |
 
 ## Key types
 

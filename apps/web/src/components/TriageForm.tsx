@@ -125,7 +125,7 @@ export function TriageForm() {
           <button
             key={preset.id}
             type="button"
-            className="btn btn-sm btn-ghost border border-highlight-high/60 font-mono text-[11px] tracking-wide text-subtle"
+            className="btn btn-sm btn-ghost border border-highlight-high/60 font-mono text-sm tracking-wide text-subtle"
             onClick={() => void runTriage(preset.url)}
             disabled={loading}
           >
@@ -141,7 +141,7 @@ export function TriageForm() {
       >
         <label className="form-control w-full">
           <span className="label px-0">
-            <span className="label-text font-mono text-xs tracking-[0.18em] text-subtle uppercase">
+            <span className="label-text font-mono text-sm tracking-[0.14em] text-subtle uppercase">
               Target URL
             </span>
           </span>
@@ -153,7 +153,7 @@ export function TriageForm() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://docs.example.com"
-              className="input join-item input-bordered w-full min-w-0 font-mono text-sm"
+              className="input join-item input-bordered w-full min-w-0 font-mono text-base"
             />
             <button
               type="submit"
@@ -172,7 +172,7 @@ export function TriageForm() {
 
       {error ? (
         <div
-          className="alert alert-error animate-rise text-sm"
+          className="alert alert-error animate-rise text-base"
           style={{ animationDelay: '40ms' }}
           role="alert"
         >
@@ -192,7 +192,7 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
       style={{ animationDelay: '100ms' }}
       aria-live="polite"
     >
-      <p className="font-mono text-xs tracking-[0.18em] text-subtle uppercase">
+      <p className="font-mono text-sm tracking-[0.14em] text-subtle uppercase">
         Recommended action
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -203,11 +203,11 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
           {result.action}
         </span>
       </div>
-      <p className="mt-3 max-w-prose text-sm leading-relaxed text-base-content/80">
+      <p className="mt-3 max-w-prose text-base leading-relaxed text-base-content/85">
         {result.reason}
       </p>
 
-      <dl className="mt-6 grid gap-4 font-mono text-xs sm:grid-cols-2">
+      <dl className="mt-6 grid gap-4 font-mono text-sm sm:grid-cols-2">
         <Stat
           label="Token savings"
           value={`${result.estimatedTokenSavingsPercent}%`}
@@ -232,7 +232,7 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
       </dl>
 
       {result.llmsTxt.found && result.llmsTxt.url ? (
-        <p className="mt-4 font-mono text-xs">
+        <p className="mt-4 font-mono text-sm break-all">
           <a
             href={result.llmsTxt.url}
             target="_blank"
@@ -247,17 +247,15 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
       {result.shields.detected && result.shields.evidence.length > 0 ? (
         <div className="mt-4 flex flex-wrap gap-2">
           {result.shields.evidence.map((item) => (
-            <span key={item} className="badge badge-neutral badge-sm font-mono">
+            <span key={item} className="badge badge-neutral font-mono text-sm">
               {item}
             </span>
           ))}
         </div>
       ) : null}
 
-      <p className="mt-6 truncate font-mono text-[11px] text-muted">
-        {result.url}
-      </p>
-      <p className="mt-1 font-mono text-[10px] text-muted">
+      <p className="mt-6 truncate font-mono text-sm text-muted">{result.url}</p>
+      <p className="mt-1 font-mono text-xs text-muted">
         probed {result.probedAt}
       </p>
     </section>
@@ -268,7 +266,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="border-t border-highlight-high/40 pt-3">
       <dt className="text-muted">{label}</dt>
-      <dd className="mt-1 text-sm text-base-content">{value}</dd>
+      <dd className="mt-1 text-base text-base-content">{value}</dd>
     </div>
   );
 }

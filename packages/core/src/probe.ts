@@ -157,8 +157,7 @@ export function synthesizeAction(input: {
     if (looksLikeSpaShell(originResult.bodySnippet, originResult.contentType)) {
       return {
         action: 'HEADLESS_REQUIRED',
-        reason:
-          'Origin HTML looks like an empty client-side hydration shell.',
+        reason: 'Origin HTML looks like an empty client-side hydration shell.',
       };
     }
 

@@ -62,8 +62,7 @@ function isHtmlLike(
   body: string,
   contentType: string | null | undefined,
 ): boolean {
-  const media =
-    contentType?.split(';', 1)[0]?.trim().toLowerCase() ?? '';
+  const media = contentType?.split(';', 1)[0]?.trim().toLowerCase() ?? '';
   if (media.includes('html')) {
     return true;
   }
@@ -83,7 +82,10 @@ function approximateVisibleTextLength(html: string): number {
     .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ');
-  const text = withoutScripts.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const text = withoutScripts
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   return text.length;
 }
 

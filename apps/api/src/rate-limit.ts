@@ -27,8 +27,7 @@ function getRatelimit(): Ratelimit | null {
 }
 
 export type RateLimitDecision =
-  | { ok: true; remaining: number | null }
-  | { ok: false; remaining: number };
+  { ok: true; remaining: number | null } | { ok: false; remaining: number };
 
 /**
  * Per-IP rate limit for `/v1/triage`. Fail-open when Redis is unset or errors.

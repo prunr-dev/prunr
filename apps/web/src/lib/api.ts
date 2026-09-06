@@ -7,7 +7,8 @@ import type { ProblemDetails, TriageResult } from '@prunr-dev/types';
 
 /** Base URL for the REST microservice (no trailing slash). */
 export function getApiBaseUrl(): string {
-  const raw = process.env['NEXT_PUBLIC_PRUNR_API_URL'] ?? 'http://localhost:8787';
+  const raw =
+    process.env['NEXT_PUBLIC_PRUNR_API_URL'] ?? 'http://localhost:8787';
   return raw.replace(/\/$/, '');
 }
 

@@ -72,7 +72,9 @@ export const Problems = {
     });
   },
 
-  invalidUrl(detail = 'The provided URL is invalid or unsupported.'): ProblemDetails {
+  invalidUrl(
+    detail = 'The provided URL is invalid or unsupported.',
+  ): ProblemDetails {
     return createProblemDetails({
       type: 'https://prunr.dev/problems/invalid-url',
       title: 'Invalid URL',
