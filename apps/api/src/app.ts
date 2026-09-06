@@ -8,27 +8,37 @@ import {
   type TriageResult,
 } from '@prunr-dev/types';
 
+import { getCachedTriage, setCachedTriage } from './cache.js';
+import { API_VERSION, getCorsOrigins } from './env.js';
+import { checkTriageRateLimit, clientIpFromHeaders } from './rate-limit.js';
+
 /**
  * Hono application exposing Prunr triage over HTTP.
  *
  * Routes:
- * - `GET /health` — liveness
+ * - `GET /health` — liveness + version
  * - `GET /v1/triage?url=` — runs {@link probeUrl} and returns {@link TriageResult}
  */
 export function createApp(): Hono {
   const app = new Hono();
+  const corsOrigins = getCorsOrigins();
 
-  // Browser visualizer (apps/web on :3000) calls this API cross-origin.
   app.use(
     '*',
     cors({
-      origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+      origin: corsOrigins,
       allowMethods: ['GET', 'OPTIONS'],
       allowHeaders: ['Content-Type'],
     }),
   );
 
-  app.get('/health', (c) => c.json({ ok: true as const, service: 'prunr-api' }));
+  app.get('/health', (c) =>
+    c.json({
+      ok: true as const,
+      service: 'prunr-api',
+      version: API_VERSION,
+    }),
+  );
 
   app.get('/v1/triage', async (c) => {
     const url = c.req.query('url');
@@ -39,9 +49,27 @@ export function createApp(): Hono {
       );
     }
 
+    const target = url.trim();
+    const ip = clientIpFromHeaders(c.req.raw.headers);
+    const rate = await checkTriageRateLimit(ip);
+    if (!rate.ok) {
+      return problemResponse(
+        Problems.tooManyRequests(
+          'Rate limit exceeded (30 requests per minute). Try again shortly.',
+        ),
+      );
+    }
+
+    const cached = await getCachedTriage(target);
+    if (cached) {
+      return c.json(cached, 200, {
+        'X-Prunr-Cache': 'HIT',
+      });
+    }
+
     let result: TriageResult;
     try {
-      result = await probeUrl(url.trim());
+      result = await probeUrl(target);
     } catch (err) {
       const detail =
         err instanceof Error ? err.message : 'Unexpected probe failure.';
@@ -59,7 +87,11 @@ export function createApp(): Hono {
       return problemResponse(problem);
     }
 
-    return c.json(result);
+    await setCachedTriage(target, result);
+
+    return c.json(result, 200, {
+      'X-Prunr-Cache': 'MISS',
+    });
   });
 
   return app;

@@ -28,6 +28,8 @@
     "@hono/node-server": "^1.14.3",
     "@prunr-dev/core": "workspace:*",
     "@prunr-dev/types": "workspace:*",
+    "@upstash/ratelimit": "^2.0.5",
+    "@upstash/redis": "^1.35.0",
     "hono": "^4.7.10"
   },
   "devDependencies": {

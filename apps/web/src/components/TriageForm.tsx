@@ -1,9 +1,17 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+} from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { TriageAction, TriageResult } from '@prunr-dev/types';
 
 import { fetchTriage, getApiBaseUrl } from '@/lib/api';
+import { DEMO_PRESETS } from '@/lib/presets';
 
 const ACTION_LABELS: Record<TriageAction, string> = {
   USE_LLMS_TXT: 'Use llms.txt',
@@ -13,79 +21,163 @@ const ACTION_LABELS: Record<TriageAction, string> = {
   ERROR_UNREACHABLE: 'Unreachable',
 };
 
+const ACTION_BADGE: Record<TriageAction, string> = {
+  USE_LLMS_TXT: 'badge-secondary',
+  FETCH_RAW: 'badge-accent',
+  HEADLESS_REQUIRED: 'badge-info',
+  WAF_BLOCKED: 'badge-warning',
+  ERROR_UNREACHABLE: 'badge-error',
+};
+
+const DEFAULT_URL = 'https://example.com';
+
 /**
  * Diagnostic form: submit a URL, display TriageResult or RFC 7807 problem.
  */
 export function TriageForm() {
-  const [url, setUrl] = useState('https://example.com');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('url')?.trim() ?? '';
+
+  const [url, setUrl] = useState(initialQuery || DEFAULT_URL);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<TriageResult | null>(null);
+  const autoRan = useRef(false);
+
+  const syncUrlParam = useCallback(
+    (nextUrl: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (nextUrl.trim()) {
+        params.set('url', nextUrl.trim());
+      } else {
+        params.delete('url');
+      }
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
+    },
+    [pathname, router, searchParams],
+  );
+
+  const runTriage = useCallback(
+    async (target: string) => {
+      const trimmed = target.trim();
+      if (!trimmed) {
+        return;
+      }
+      setLoading(true);
+      setError(null);
+      setUrl(trimmed);
+      syncUrlParam(trimmed);
+
+      try {
+        const response = await fetchTriage(trimmed);
+        if (!response.ok) {
+          setResult(null);
+          setError(
+            response.problem.detail ??
+              `${response.problem.title} (${response.problem.status})`,
+          );
+          return;
+        }
+        setResult(response.data);
+      } catch (err) {
+        setResult(null);
+        setError(
+          err instanceof Error
+            ? `${err.message} — is the API running at ${getApiBaseUrl()}?`
+            : 'Request failed.',
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [syncUrlParam],
+  );
+
+  useEffect(() => {
+    if (autoRan.current) {
+      return;
+    }
+    const fromQuery = searchParams.get('url')?.trim();
+    if (!fromQuery) {
+      return;
+    }
+    autoRan.current = true;
+    void runTriage(fromQuery);
+  }, [runTriage, searchParams]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetchTriage(url.trim());
-      if (!response.ok) {
-        setResult(null);
-        setError(
-          response.problem.detail ??
-            `${response.problem.title} (${response.problem.status})`,
-        );
-        return;
-      }
-      setResult(response.data);
-    } catch (err) {
-      setResult(null);
-      setError(
-        err instanceof Error
-          ? `${err.message} — is the API running at ${getApiBaseUrl()}?`
-          : 'Request failed.',
-      );
-    } finally {
-      setLoading(false);
-    }
+    await runTriage(url);
   }
 
   return (
     <div className="flex w-full max-w-2xl flex-col gap-8">
+      <div
+        className="animate-rise flex flex-wrap gap-2"
+        style={{ animationDelay: '40ms' }}
+      >
+        {DEMO_PRESETS.map((preset) => (
+          <button
+            key={preset.id}
+            type="button"
+            className="btn btn-sm btn-ghost border border-highlight-high/60 font-mono text-[11px] tracking-wide text-subtle"
+            onClick={() => void runTriage(preset.url)}
+            disabled={loading}
+          >
+            {preset.label}
+          </button>
+        ))}
+      </div>
+
       <form
         onSubmit={onSubmit}
         className="animate-rise flex flex-col gap-4"
         style={{ animationDelay: '80ms' }}
       >
-        <label className="font-mono text-xs tracking-[0.18em] text-mist uppercase">
-          Target URL
-          <input
-            type="url"
-            name="url"
-            required
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://docs.example.com"
-            className="mt-2 block w-full rounded-none border border-mist/30 bg-ink/60 px-4 py-3 font-mono text-sm text-paper outline-none transition focus:border-signal focus:ring-1 focus:ring-signal"
-          />
+        <label className="form-control w-full">
+          <span className="label px-0">
+            <span className="label-text font-mono text-xs tracking-[0.18em] text-subtle uppercase">
+              Target URL
+            </span>
+          </span>
+          <div className="join w-full">
+            <input
+              type="url"
+              name="url"
+              required
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://docs.example.com"
+              className="input join-item input-bordered w-full min-w-0 font-mono text-sm"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary join-item animate-pulse-primary min-w-28 font-display"
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm" />
+              ) : (
+                'Run triage'
+              )}
+            </button>
+          </div>
         </label>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="animate-pulse-signal self-start border border-signal bg-signal px-6 py-3 font-display text-sm font-semibold tracking-wide text-ink transition hover:bg-paper disabled:cursor-wait disabled:opacity-60"
-        >
-          {loading ? 'Probing…' : 'Run triage'}
-        </button>
       </form>
 
       {error ? (
-        <p
-          className="animate-rise border-l-2 border-danger pl-4 font-mono text-sm text-danger"
+        <div
+          className="alert alert-error animate-rise text-sm"
+          style={{ animationDelay: '40ms' }}
           role="alert"
         >
-          {error}
-        </p>
+          <span className="font-mono">{error}</span>
+        </div>
       ) : null}
 
       {result ? <TriageResultPanel result={result} /> : null}
@@ -96,24 +188,39 @@ export function TriageForm() {
 function TriageResultPanel({ result }: { result: TriageResult }) {
   return (
     <section
-      className="animate-rise border border-mist/25 bg-ink/50 p-6 backdrop-blur-sm"
-      style={{ animationDelay: '60ms' }}
+      className="animate-rise rounded-box border border-highlight-high/50 bg-base-200/80 p-6"
+      style={{ animationDelay: '100ms' }}
       aria-live="polite"
     >
-      <p className="font-mono text-xs tracking-[0.18em] text-mist uppercase">
+      <p className="font-mono text-xs tracking-[0.18em] text-subtle uppercase">
         Recommended action
       </p>
-      <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight text-signal">
-        {ACTION_LABELS[result.action]}
-      </h2>
-      <p className="mt-3 max-w-prose text-sm leading-relaxed text-fog">
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-primary">
+          {ACTION_LABELS[result.action]}
+        </h2>
+        <span className={`badge ${ACTION_BADGE[result.action]} badge-outline`}>
+          {result.action}
+        </span>
+      </div>
+      <p className="mt-3 max-w-prose text-sm leading-relaxed text-base-content/80">
         {result.reason}
       </p>
 
       <dl className="mt-6 grid gap-4 font-mono text-xs sm:grid-cols-2">
-        <Stat label="Token savings" value={`${result.estimatedTokenSavingsPercent}%`} />
+        <Stat
+          label="Token savings"
+          value={`${result.estimatedTokenSavingsPercent}%`}
+        />
         <Stat label="Latency" value={`${result.latencyMs} ms`} />
-        <Stat label="llms.txt" value={result.llmsTxt.found ? 'found' : 'not found'} />
+        <Stat
+          label="llms.txt"
+          value={
+            result.llmsTxt.found
+              ? (result.llmsTxt.path ?? 'found')
+              : 'not found'
+          }
+        />
         <Stat
           label="Shields"
           value={
@@ -124,8 +231,34 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
         />
       </dl>
 
-      <p className="mt-6 truncate font-mono text-[11px] text-mist">
+      {result.llmsTxt.found && result.llmsTxt.url ? (
+        <p className="mt-4 font-mono text-xs">
+          <a
+            href={result.llmsTxt.url}
+            target="_blank"
+            rel="noreferrer"
+            className="link link-secondary"
+          >
+            {result.llmsTxt.url}
+          </a>
+        </p>
+      ) : null}
+
+      {result.shields.detected && result.shields.evidence.length > 0 ? (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {result.shields.evidence.map((item) => (
+            <span key={item} className="badge badge-neutral badge-sm font-mono">
+              {item}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      <p className="mt-6 truncate font-mono text-[11px] text-muted">
         {result.url}
+      </p>
+      <p className="mt-1 font-mono text-[10px] text-muted">
+        probed {result.probedAt}
       </p>
     </section>
   );
@@ -133,9 +266,9 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-t border-mist/20 pt-3">
-      <dt className="text-mist">{label}</dt>
-      <dd className="mt-1 text-sm text-paper">{value}</dd>
+    <div className="border-t border-highlight-high/40 pt-3">
+      <dt className="text-muted">{label}</dt>
+      <dd className="mt-1 text-sm text-base-content">{value}</dd>
     </div>
   );
 }

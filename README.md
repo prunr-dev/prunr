@@ -75,4 +75,30 @@ pnpm --filter @prunr-dev/core typecheck
 
 ## Status
 
-Phase 1 foundation is in place (monorepo, shared contracts, API, MCP, web). **Phase 2 live probes** run in `@prunr-dev/core`: SSRF DNS checks, capped origin fetch, llms.txt discovery, shield/SPA heuristics, and action synthesis under a 2s budget.
+**Phase 3 public MVP:** live probes in `@prunr-dev/core`, Corduroy/daisyUI visualizer in `@prunr-dev/web`, and a hostable Hono API with env-driven CORS plus optional Upstash rate limit (30/min) and 60s response cache.
+
+### Try it
+
+```bash
+# Hosted (once deployed)
+curl "https://api.prunr.dev/v1/triage?url=https://example.com"
+
+# Local
+pnpm --filter @prunr-dev/api dev
+curl "http://localhost:8787/v1/triage?url=https://example.com"
+```
+
+Visualizer: [prunr.dev](https://prunr.dev) (or `pnpm --filter @prunr-dev/web dev` against a local API).
+
+### Deploy (Vercel monorepo)
+
+Two projects from the same repo:
+
+| Project | Root Directory | Key env |
+| --- | --- | --- |
+| Web | `apps/web` | `NEXT_PUBLIC_PRUNR_API_URL=https://api.prunr.dev` |
+| API | `apps/api` | `CORS_ORIGINS=https://prunr.dev,...` · Upstash Redis REST URL/token |
+
+Enable “include files outside root directory” so workspace packages resolve. See [`apps/api/README.md`](apps/api/README.md) and [`apps/web/README.md`](apps/web/README.md).
+
+MCP remains **local stdio** for IDE agents; for a zero-install try, call the hosted REST API instead.

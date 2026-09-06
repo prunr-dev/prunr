@@ -1,29 +1,58 @@
 @import 'tailwindcss';
+@plugin "daisyui" {
+  themes: corduroy --default;
+}
+
+@plugin "daisyui/theme" {
+  name: 'corduroy';
+  default: true;
+  color-scheme: dark;
+  --color-base-100: #1d1920;
+  --color-base-200: #261e2a;
+  --color-base-300: #2e2533;
+  --color-base-content: #cdc8d0;
+  --color-primary: #e99d90;
+  --color-primary-content: #1d1920;
+  --color-secondary: #c285b2;
+  --color-secondary-content: #1d1920;
+  --color-accent: #4b8686;
+  --color-accent-content: #cdc8d0;
+  --color-neutral: #443c4a;
+  --color-neutral-content: #cdc8d0;
+  --color-info: #d27f91;
+  --color-info-content: #1d1920;
+  --color-success: #4b8686;
+  --color-success-content: #cdc8d0;
+  --color-warning: #edb392;
+  --color-warning-content: #1d1920;
+  --color-error: #e06278;
+  --color-error-content: #1d1920;
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.35rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
 
 :root {
-  --ink: #0b1210;
-  --ink-soft: #14201c;
-  --fog: #c8d4ce;
-  --mist: #8fa399;
-  --paper: #e8f0eb;
-  --signal: #b8f255;
-  --signal-dim: #7aab2e;
-  --danger: #ff6b5a;
-  --warn: #f0c35a;
+  --muted: #6f6373;
+  --subtle: #887b8c;
+  --highlight-low: #251f28;
+  --highlight-med: #443c4a;
+  --highlight-high: #504757;
 }
 
 @theme inline {
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-fog: var(--fog);
-  --color-mist: var(--mist);
-  --color-paper: var(--paper);
-  --color-signal: var(--signal);
-  --color-signal-dim: var(--signal-dim);
-  --color-danger: var(--danger);
-  --color-warn: var(--warn);
   --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-highlight-low: var(--highlight-low);
+  --color-highlight-med: var(--highlight-med);
+  --color-highlight-high: var(--highlight-high);
 }
 
 html,
@@ -33,32 +62,45 @@ body {
 
 body {
   margin: 0;
-  color: var(--paper);
+  color: var(--color-base-content);
   background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(184, 242, 85, 0.12), transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, rgba(143, 163, 153, 0.15), transparent 50%),
-    linear-gradient(165deg, var(--ink) 0%, var(--ink-soft) 55%, #0a1612 100%);
+    radial-gradient(
+      1100px 560px at 8% -12%,
+      color-mix(in srgb, var(--color-primary) 14%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 480px at 100% 0%,
+      color-mix(in srgb, var(--color-accent) 12%, transparent),
+      transparent 52%
+    ),
+    linear-gradient(
+      165deg,
+      var(--color-base-100) 0%,
+      var(--highlight-low) 52%,
+      #17131a 100%
+    );
   background-attachment: fixed;
 }
 
-/* Subtle grid texture for a diagnostic-instrument feel */
+/* Soft corduroy grain */
 body::before {
   content: '';
   pointer-events: none;
   position: fixed;
   inset: 0;
-  opacity: 0.04;
+  opacity: 0.035;
   background-image:
-    linear-gradient(var(--fog) 1px, transparent 1px),
-    linear-gradient(90deg, var(--fog) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    linear-gradient(var(--subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--subtle) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 28%, transparent 78%);
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -66,20 +108,20 @@ body::before {
   }
 }
 
-@keyframes pulse-signal {
+@keyframes pulse-primary {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(184, 242, 85, 0.35);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(184, 242, 85, 0);
+    box-shadow: 0 0 0 8px transparent;
   }
 }
 
 .animate-rise {
-  animation: rise 0.45s ease-out both;
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.animate-pulse-signal {
-  animation: pulse-signal 1.8s ease-out infinite;
+.animate-pulse-primary {
+  animation: pulse-primary 2s ease-out infinite;
 }

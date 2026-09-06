@@ -23,6 +23,12 @@ Many AI agents already speak MCP. Shipping a stdio server lets those hosts call 
 
 Returns JSON text content: a serialized `TriageResult` from `@prunr-dev/types`.
 
+For a **zero-install** try without running this process, call the hosted REST API instead:
+
+```bash
+curl "https://api.prunr.dev/v1/triage?url=https://example.com"
+```
+
 ## Run locally
 
 ```bash

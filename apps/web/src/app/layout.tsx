@@ -28,7 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${plexMono.variable}`}>
+    <html
+      lang="en"
+      data-theme="corduroy"
+      className={`${syne.variable} ${plexMono.variable}`}
+    >
       <body className="font-display antialiased">{children}</body>
     </html>
   );

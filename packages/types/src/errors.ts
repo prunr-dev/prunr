@@ -113,4 +113,16 @@ export const Problems = {
       code: 'TIMEOUT',
     });
   },
+
+  tooManyRequests(
+    detail = 'Rate limit exceeded. Try again shortly.',
+  ): ProblemDetails {
+    return createProblemDetails({
+      type: 'https://prunr.dev/problems/rate-limit',
+      title: 'Too Many Requests',
+      status: 429,
+      detail,
+      code: 'RATE_LIMITED',
+    });
+  },
 } as const;

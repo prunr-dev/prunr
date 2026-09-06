@@ -35,14 +35,24 @@ Rules:
 Agent / IDE / Browser
         │
         ├─► apps/api   GET /v1/triage?url=…
+        │       ├─► rate limit (Upstash, fail-open)
+        │       ├─► short TTL cache (Upstash, fail-open)
         │       └─► core.probeUrl(url) ─► TriageResult
         │
-        ├─► apps/mcp   tool triage_url
+        ├─► apps/mcp   tool triage_url (local stdio)
         │       └─► core.probeUrl(url) ─► TriageResult
         │
-        └─► apps/web   UI
+        └─► apps/web   UI (prunr.dev)
                 └─► fetch(api /v1/triage) ─► render TriageResult
 ```
+
+## Deploy topology (MVP)
+
+| Surface | Host | Notes |
+| --- | --- | --- |
+| Web | Vercel project → `apps/web` | `NEXT_PUBLIC_PRUNR_API_URL` |
+| API | Vercel project → `apps/api` | `api/index.ts` + `CORS_ORIGINS` + Upstash |
+| MCP | Local stdio | Same engine; zero-install try via hosted REST |
 
 ## Probe pipeline (core)
 
@@ -59,7 +69,8 @@ Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS
 ## Error model
 
 - **Agent-facing probe outcomes** (timeout, DNS failure, network error) stay HTTP `200` with `TriageResult.action = ERROR_UNREACHABLE`.
-- **Invalid URL / SSRF blocks** are mapped by the API to **RFC 7807** Problem Details (`application/problem+json`), defined in `@prunr-dev/types` (`ProblemDetails`, `Problems` helpers).
+- **Invalid URL / SSRF blocks** are mapped by the API to **RFC 7807** Problem Details (`application/problem+json`).
+- **Rate limits** return `429` problem JSON when Upstash is configured.
 
 ## Apps (entry points)
 
@@ -67,6 +78,6 @@ Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS
 | --- | --- | --- | --- |
 | API | `@prunr-dev/api` | HTTP (Hono) | `GET /v1/triage?url=`, `GET /health` |
 | MCP | `@prunr-dev/mcp` | stdio MCP | tool `triage_url` → JSON `TriageResult` |
-| Web | `@prunr-dev/web` | Next.js | Diagnostic UI — calls `GET /v1/triage` |
+| Web | `@prunr-dev/web` | Next.js + daisyUI | Corduroy visualizer → REST |
 
 Both API and MCP call `probeUrl()` from `@prunr-dev/core` only; they must not reimplement triage heuristics.
