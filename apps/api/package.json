@@ -6,19 +6,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/app.d.ts",
+      "import": "./dist/app.js"
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/app.js",
+  "types": "./dist/app.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "tsx watch src/index.ts",
-    "start": "node dist/index.js",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rm -rf dist *.tsbuildinfo",
     "lint": "tsc -p tsconfig.json --noEmit",

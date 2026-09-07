@@ -40,6 +40,15 @@ export function createApp(): Hono {
     }),
   );
 
+  app.get('/', (c) =>
+    c.json({
+      ok: true as const,
+      service: 'prunr-api',
+      version: API_VERSION,
+      endpoints: ['/health', '/v1/triage?url='],
+    }),
+  );
+
   app.get('/v1/triage', async (c) => {
     const url = c.req.query('url');
 
@@ -96,6 +105,10 @@ export function createApp(): Hono {
 
   return app;
 }
+
+/** Default export for Vercel’s native Hono backend (`export default app`). */
+const app = createApp();
+export default app;
 
 function problemResponse(problem: ProblemDetails): Response {
   return new Response(JSON.stringify(problem), {

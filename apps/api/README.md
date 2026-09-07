@@ -8,23 +8,22 @@ Agents and the web UI need a simple HTTP surface. This app validates input, appl
 
 ## Files
 
-| File                | Purpose                                                        |
-| ------------------- | -------------------------------------------------------------- |
-| `src/app.ts`        | Hono routes (`/health`, `/v1/triage`), CORS, cache, rate limit |
-| `src/env.ts`        | `CORS_ORIGINS`, Upstash detection, API version                 |
-| `src/cache.ts`      | 60s Upstash Redis triage cache (fail-open)                     |
-| `src/rate-limit.ts` | Per-IP Upstash Ratelimit ~30/min (fail-open)                   |
-| `src/index.ts`      | Local Node server (`@hono/node-server`)                        |
-| `api/index.ts`      | Vercel serverless entry (`hono/vercel`)                        |
-| `vercel.json`       | Rewrite all paths to the serverless function                   |
-| `.env.example`      | Env template                                                   |
+| File | Purpose |
+| --- | --- |
+| `src/app.ts` | Hono app (default export for Vercel) — routes, CORS, cache, rate limit |
+| `src/server.ts` | Local Node listener (`@hono/node-server`) only |
+| `src/env.ts` | `CORS_ORIGINS`, Upstash detection, API version |
+| `src/cache.ts` | 60s Upstash Redis triage cache (fail-open) |
+| `src/rate-limit.ts` | Per-IP Upstash Ratelimit ~30/min (fail-open) |
+| `.env.example` | Env template |
 
 ## Endpoints
 
-| Method | Path              | Description                                           |
-| ------ | ----------------- | ----------------------------------------------------- |
-| `GET`  | `/health`         | `{ ok, service, version }`                            |
-| `GET`  | `/v1/triage?url=` | `200` + `TriageResult`, or `application/problem+json` |
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/` | Service info |
+| `GET` | `/health` | `{ ok, service, version }` |
+| `GET` | `/v1/triage?url=` | `200` + `TriageResult`, or `application/problem+json` |
 
 Example:
 
@@ -37,12 +36,12 @@ Default port: **8787** (override with `PORT`).
 
 ## Environment
 
-| Variable                   | Purpose                                                                            |
-| -------------------------- | ---------------------------------------------------------------------------------- |
-| `PORT`                     | Local listen port (default `8787`)                                                 |
-| `CORS_ORIGINS`             | Comma-separated allowed origins (defaults include localhost + `https://prunr.dev`) |
-| `UPSTASH_REDIS_REST_URL`   | Optional Redis for cache + rate limit                                              |
-| `UPSTASH_REDIS_REST_TOKEN` | Optional Redis token                                                               |
+| Variable | Purpose |
+| --- | --- |
+| `PORT` | Local listen port (default `8787`) — not used on Vercel |
+| `CORS_ORIGINS` | Comma-separated allowed origins (defaults include localhost + `https://prunr.dev`) |
+| `UPSTASH_REDIS_REST_URL` | Optional Redis for cache + rate limit |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional Redis token |
 
 Without Upstash credentials, rate limit and cache are skipped (fail-open) so local demos keep working.
 
@@ -50,15 +49,17 @@ Successful probes may include `X-Prunr-Cache: HIT|MISS`. Over limit returns `429
 
 ## Deploy (Vercel)
 
-Create a Vercel project with:
+Create a Vercel project with **Framework Preset: Hono** (native backend — `export default app` from `src/app.ts`):
 
 - **Root Directory:** `apps/api`
 - **Include files outside root:** on (monorepo packages)
-- **Install:** from repo root, e.g. `cd ../.. && pnpm install`
+- **Install:** `cd ../.. && pnpm install`
 - **Build:** `cd ../.. && pnpm --filter @prunr-dev/types build && pnpm --filter @prunr-dev/core build`
-- Set `CORS_ORIGINS` and Upstash env vars in the project
+- Env: `CORS_ORIGINS`, Upstash URL/token (skip `PORT`)
 
-Suggested production host: `https://api.prunr.dev`.
+Do **not** use the old `api/` + `hono/vercel` `handle()` + catch-all rewrite pattern — it hangs under Vercel’s Hono backend runtime.
+
+Live example host: `https://prunr-api.vercel.app` (custom `api.prunr.dev` later).
 
 ## Scripts
 
