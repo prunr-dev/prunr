@@ -99,7 +99,7 @@ Cursor can call tool `triage_url` over stdio. Same `probeUrl()` as the API. No b
 
 ## What’s built vs still ahead
 
-**Built**
+### Built
 
 - Live probing in core + tests
 - REST API with CORS, optional cache/rate limit, Vercel wiring
@@ -107,7 +107,7 @@ Cursor can call tool `triage_url` over stdio. Same `probeUrl()` as the API. No b
 - Local MCP
 - Docs + CI workflow
 
-**Not done yet (backlog)**
+### Not done yet (backlog)
 
 - Deploying to prunr.dev / api.prunr.dev (Vercel project config)
 - OpenAPI + Scalar

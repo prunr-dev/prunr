@@ -66,7 +66,7 @@ cp apps/web/.env.example apps/web/.env.local   # if needed
 pnpm --filter @prunr-dev/web dev
 ```
 
-Open http://localhost:3000, submit a URL — the browser hits the same debug session on `:8787`.
+Open [http://localhost:3000](http://localhost:3000), submit a URL — the browser hits the same debug session on `:8787`.
 
 ---
 
