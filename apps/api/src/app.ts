@@ -50,7 +50,7 @@ export function createApp(): Hono {
     }
 
     const target = url.trim();
-    const ip = clientIpFromHeaders(c.req.raw.headers);
+    const ip = clientIpFromHeaders((name) => c.req.header(name));
     const rate = await checkTriageRateLimit(ip);
     if (!rate.ok) {
       return problemResponse(

@@ -53,16 +53,19 @@ export async function checkTriageRateLimit(
 
 /**
  * Best-effort client IP from proxy headers (Vercel / reverse proxies).
+ * Uses a getter so callers can pass Hono's `c.req.header` without DOM `Headers`.
  */
-export function clientIpFromHeaders(headers: Headers): string {
-  const forwarded = headers.get('x-forwarded-for');
+export function clientIpFromHeaders(
+  getHeader: (name: string) => string | undefined,
+): string {
+  const forwarded = getHeader('x-forwarded-for');
   if (forwarded) {
     const first = forwarded.split(',')[0]?.trim();
     if (first) {
       return first;
     }
   }
-  const realIp = headers.get('x-real-ip')?.trim();
+  const realIp = getHeader('x-real-ip')?.trim();
   if (realIp) {
     return realIp;
   }
