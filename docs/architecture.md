@@ -1,6 +1,6 @@
 # Architecture
 
-High-level map of how Prunr pieces fit together. Keep this doc short; package READMEs own the details. For a plain-language walkthrough, see [eli5.md](./eli5.md).
+High-level map of how Prunr pieces fit together. Keep this doc short; package READMEs own the details. For a plain-language walkthrough, see [eli5.md](./eli5.md). To step through requests in the debugger, see [debugging.md](./debugging.md).
 
 ## Goals
 

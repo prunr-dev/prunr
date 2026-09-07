@@ -34,7 +34,7 @@ prunr/
 └── turbo.json
 ```
 
-See [docs/architecture.md](docs/architecture.md) for how data flows between packages, or [docs/eli5.md](docs/eli5.md) for a plain-language walkthrough.
+See [docs/architecture.md](docs/architecture.md) for how data flows between packages, [docs/eli5.md](docs/eli5.md) for a plain-language walkthrough, or [docs/debugging.md](docs/debugging.md) to step through the API and core in the debugger.
 
 ### Root config files
 
