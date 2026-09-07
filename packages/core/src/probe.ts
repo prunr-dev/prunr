@@ -130,7 +130,8 @@ export function synthesizeAction(input: {
 }): { action: TriageAction; reason: string } {
   const { originResult, llmsTxt, shields } = input;
 
-  // Unreachable only when we have no usable origin response and no llms.txt.
+  // Priority: unreachable → challenge WAF → llms.txt → SPA → raw.
+  // CDN-only markers leave shields.detected false and pass through.
   if (!originResult.ok && !llmsTxt.found) {
     return {
       action: 'ERROR_UNREACHABLE',

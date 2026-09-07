@@ -25,13 +25,17 @@ export interface ShieldInspectionInput {
 /**
  * Passive bot-shield / WAF detection from headers, cookies, and body snippet.
  *
- * Vendor specificity (most specific wins):
- * `cloudflare_turnstile` > `datadome` > `cloudflare` > `unknown`
+ * **`detected` is challenge-grade only.** CDN fronting (`cf-ray`,
+ * `server: cloudflare`, `__cf_bm` alone) is recorded as `cdn:*` evidence with
+ * `detected: false` so synthesis does not abort on Cloudflare-as-CDN.
  *
- * Signals:
- * - Headers: `cf-ray`, `cf-mitigated`, `server: cloudflare`, `x-datadome`
- * - Cookies: `__cf_bm`, `cf_clearance`, `datadome`
- * - Body: Turnstile / "Just a moment…" / DataDome interstitial markers
+ * Challenge signals:
+ * - `cf-mitigated`, Turnstile / “Just a moment…”, DataDome markers
+ * - `403`/`429` + challenge-like body
+ * - `cf_clearance` only with challenge context (not alone on 200)
+ *
+ * Vendor specificity when detected:
+ * `cloudflare_turnstile` > `datadome` > `cloudflare` > `unknown`
  */
 export function inspectShields(input: ShieldInspectionInput): ShieldTelemetry {
   const httpStatus = input.httpStatus ?? null;
@@ -41,84 +45,100 @@ export function inspectShields(input: ShieldInspectionInput): ShieldTelemetry {
   const cookieBlob = cookies.join('\n').toLowerCase();
   const bodyLower = body.toLowerCase();
 
-  const evidence: string[] = [];
-  let hasCloudflare = false;
+  const cdnEvidence: string[] = [];
+  const challengeEvidence: string[] = [];
   let hasTurnstile = false;
   let hasDatadome = false;
+  let hasCloudflareChallenge = false;
 
+  // --- CDN-only markers (informational unless paired with a challenge) ---
   if (headers['cf-ray'] !== undefined) {
-    evidence.push('cf-ray');
-    hasCloudflare = true;
-  }
-  if (headers['cf-mitigated'] !== undefined) {
-    evidence.push('cf-mitigated');
-    hasCloudflare = true;
-    hasTurnstile = true;
+    cdnEvidence.push('cdn:cf-ray');
   }
   if ((headers['server'] ?? '').toLowerCase().includes('cloudflare')) {
-    evidence.push('server:cloudflare');
-    hasCloudflare = true;
+    cdnEvidence.push('cdn:server:cloudflare');
   }
-  if (headers['x-datadome'] !== undefined) {
-    evidence.push('x-datadome');
-    hasDatadome = true;
-  }
-
   if (cookieNamePresent(cookieBlob, '__cf_bm')) {
-    evidence.push('cookie:__cf_bm');
-    hasCloudflare = true;
-  }
-  if (cookieNamePresent(cookieBlob, 'cf_clearance')) {
-    evidence.push('cookie:cf_clearance');
-    hasCloudflare = true;
-  }
-  if (cookieNamePresent(cookieBlob, 'datadome')) {
-    evidence.push('cookie:datadome');
-    hasDatadome = true;
+    cdnEvidence.push('cdn:cookie:__cf_bm');
   }
 
-  if (/just a moment/i.test(body)) {
-    evidence.push('body:just-a-moment');
-    hasCloudflare = true;
+  // --- Challenge-grade signals ---
+  if (headers['cf-mitigated'] !== undefined) {
+    challengeEvidence.push('cf-mitigated');
+    hasCloudflareChallenge = true;
     hasTurnstile = true;
   }
-  if (/challenges\.cloudflare\.com|turnstile|cf-turnstile/i.test(bodyLower)) {
-    evidence.push('body:turnstile');
-    hasCloudflare = true;
+  if (headers['x-datadome'] !== undefined) {
+    challengeEvidence.push('x-datadome');
+    hasDatadome = true;
+  }
+  if (cookieNamePresent(cookieBlob, 'datadome')) {
+    challengeEvidence.push('cookie:datadome');
+    hasDatadome = true;
+  }
+
+  const hasJustAMoment = /just a moment/i.test(body);
+  const hasTurnstileBody =
+    /challenges\.cloudflare\.com|turnstile|cf-turnstile/i.test(bodyLower);
+  if (hasJustAMoment) {
+    challengeEvidence.push('body:just-a-moment');
+    hasCloudflareChallenge = true;
+    hasTurnstile = true;
+  }
+  if (hasTurnstileBody) {
+    challengeEvidence.push('body:turnstile');
+    hasCloudflareChallenge = true;
     hasTurnstile = true;
   }
   if (/datadome|dd\.js|c\.datadome\.co/i.test(bodyLower)) {
-    evidence.push('body:datadome');
+    challengeEvidence.push('body:datadome');
     hasDatadome = true;
   }
+
+  const hasCfClearance = cookieNamePresent(cookieBlob, 'cf_clearance');
+  const challengeContext =
+    hasCloudflareChallenge ||
+    hasTurnstile ||
+    httpStatus === 403 ||
+    httpStatus === 429;
+  if (hasCfClearance && challengeContext) {
+    challengeEvidence.push('cookie:cf_clearance');
+    hasCloudflareChallenge = true;
+  }
+
+  const unknownChallenge =
+    (httpStatus === 403 || httpStatus === 429) &&
+    looksLikeChallengeBody(bodyLower) &&
+    !hasTurnstile &&
+    !hasDatadome &&
+    !hasCloudflareChallenge;
 
   let vendor: ShieldVendor | null = null;
   if (hasTurnstile) {
     vendor = 'cloudflare_turnstile';
   } else if (hasDatadome) {
     vendor = 'datadome';
-  } else if (hasCloudflare) {
+  } else if (hasCloudflareChallenge) {
     vendor = 'cloudflare';
-  } else if (
-    (httpStatus === 403 || httpStatus === 429) &&
-    looksLikeChallengeBody(bodyLower)
-  ) {
+  } else if (unknownChallenge) {
     vendor = 'unknown';
-    evidence.push('body:challenge-like');
+    challengeEvidence.push('body:challenge-like');
   }
 
   const detected = vendor !== null;
+  const evidence = detected
+    ? [...challengeEvidence, ...cdnEvidence]
+    : [...cdnEvidence];
 
   return {
     detected,
-    vendor,
-    evidence: detected ? evidence : [],
+    vendor: detected ? vendor : null,
+    evidence,
     httpStatus,
   };
 }
 
 function cookieNamePresent(cookieBlob: string, name: string): boolean {
-  // Match cookie name at start of a Set-Cookie line or after separators.
   const re = new RegExp(
     `(?:^|[\\n;,\\s])${escapeRegExp(name.toLowerCase())}=`,
     'i',

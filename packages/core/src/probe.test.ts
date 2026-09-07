@@ -51,7 +51,7 @@ describe('synthesizeAction', () => {
     assert.match(result.reason, /timed out/i);
   });
 
-  it('returns WAF_BLOCKED when shields are detected', () => {
+  it('returns WAF_BLOCKED when challenge shields are detected', () => {
     const result = synthesizeAction({
       originResult: {
         ok: true,
@@ -67,11 +67,93 @@ describe('synthesizeAction', () => {
       shields: {
         detected: true,
         vendor: 'cloudflare_turnstile',
-        evidence: ['cf-ray', 'body:just-a-moment'],
+        evidence: ['body:just-a-moment', 'cdn:cf-ray'],
         httpStatus: 403,
       },
     });
     assert.equal(result.action, 'WAF_BLOCKED');
+  });
+
+  it('prefers WAF_BLOCKED over llms.txt when challenge shields fire', () => {
+    const result = synthesizeAction({
+      originResult: {
+        ok: true,
+        status: 403,
+        headers: {},
+        setCookie: [],
+        bodySnippet: 'Just a moment',
+        finalUrl: 'https://example.com/',
+        contentType: 'text/html',
+        byteLength: 13,
+      },
+      llmsTxt: {
+        found: true,
+        url: 'https://example.com/llms.txt',
+        path: '/llms.txt',
+        contentType: 'text/plain',
+        byteLength: 12,
+      },
+      shields: {
+        detected: true,
+        vendor: 'cloudflare_turnstile',
+        evidence: ['body:just-a-moment'],
+        httpStatus: 403,
+      },
+    });
+    assert.equal(result.action, 'WAF_BLOCKED');
+  });
+
+  it('prefers USE_LLMS_TXT when only CDN markers are present', () => {
+    const result = synthesizeAction({
+      originResult: {
+        ok: true,
+        status: 200,
+        headers: { 'cf-ray': '1', server: 'cloudflare' },
+        setCookie: [],
+        bodySnippet: '<html><body><p>Docs</p></body></html>',
+        finalUrl: 'https://example.com/',
+        contentType: 'text/html',
+        byteLength: 40,
+      },
+      llmsTxt: {
+        found: true,
+        url: 'https://example.com/llms.txt',
+        path: '/llms.txt',
+        contentType: 'text/plain',
+        byteLength: 12,
+      },
+      shields: {
+        detected: false,
+        vendor: null,
+        evidence: ['cdn:cf-ray', 'cdn:server:cloudflare'],
+        httpStatus: 200,
+      },
+    });
+    assert.equal(result.action, 'USE_LLMS_TXT');
+  });
+
+  it('returns FETCH_RAW for content HTML behind CDN-only markers', () => {
+    const html = `<html><body><article>${'hello world '.repeat(30)}</article></body></html>`;
+    const result = synthesizeAction({
+      originResult: {
+        ok: true,
+        status: 200,
+        headers: { 'cf-ray': '1' },
+        setCookie: [],
+        bodySnippet: html,
+        finalUrl: 'https://example.com/',
+        contentType: 'text/html',
+        byteLength: html.length,
+      },
+      llmsTxt: emptyLlmsTxtDiscovery(),
+      shields: {
+        detected: false,
+        vendor: null,
+        evidence: ['cdn:cf-ray'],
+        httpStatus: 200,
+      },
+    });
+    assert.equal(result.action, 'FETCH_RAW');
   });
 
   it('returns USE_LLMS_TXT when discovery succeeds', () => {

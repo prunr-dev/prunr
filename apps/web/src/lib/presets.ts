@@ -2,7 +2,7 @@ import type { TriageAction } from '@prunr-dev/types';
 
 /**
  * Curated demo targets for the visualizer.
- * WAF / SPA examples may drift as sites change; labels stay educational.
+ * Live sites may drift; labels stay educational.
  */
 export interface DemoPreset {
   id: string;
@@ -22,19 +22,19 @@ export const DEMO_PRESETS: readonly DemoPreset[] = [
   {
     id: 'llms-txt',
     label: 'llms.txt',
-    url: 'https://docs.anthropic.com',
+    url: 'https://react.dev',
     hint: 'USE_LLMS_TXT',
   },
   {
     id: 'waf',
     label: 'WAF / challenge',
-    url: 'https://www.cloudflare.com',
+    url: 'https://www.npmjs.com/package/hono',
     hint: 'WAF_BLOCKED',
   },
   {
-    id: 'spa',
-    label: 'SPA shell',
-    url: 'https://react.dev',
-    hint: 'HEADLESS_REQUIRED',
+    id: 'docs-html',
+    label: 'Docs HTML',
+    url: 'https://en.wikipedia.org/wiki/HTTP',
+    hint: 'FETCH_RAW',
   },
 ] as const;

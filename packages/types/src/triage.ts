@@ -2,7 +2,10 @@
  * Recommended fetch strategy after pre-flight triage.
  *
  * Priority when synthesizing (highest wins):
- * ERROR_UNREACHABLE → WAF_BLOCKED → USE_LLMS_TXT → HEADLESS_REQUIRED → FETCH_RAW
+ * ERROR_UNREACHABLE → challenge WAF_BLOCKED → USE_LLMS_TXT → HEADLESS_REQUIRED → FETCH_RAW
+ *
+ * CDN-only Cloudflare markers are not a TriageAction; only challenge-grade
+ * `shields.detected` yields WAF_BLOCKED (and beats llms.txt).
  */
 export type TriageAction =
   | 'USE_LLMS_TXT'

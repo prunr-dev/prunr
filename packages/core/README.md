@@ -15,7 +15,7 @@ Triage logic must be identical whether the caller is the REST API or the MCP ser
 | `src/ssrf.ts`         | URL/protocol sanitation, DNS lookup, private-IP (SSRF) guards |
 | `src/fetch-origin.ts` | Capped GET helper (4KB body snippet, shared AbortSignal)      |
 | `src/llms-txt.ts`     | Discover `/llms.txt` and `/.well-known/llms.txt`              |
-| `src/shields.ts`      | Passive Cloudflare / Turnstile / DataDome heuristics          |
+| `src/shields.ts`      | Challenge-grade Cloudflare / Turnstile / DataDome heuristics (CDN-only ≠ WAF) |
 | `src/spa.ts`          | Empty SPA-shell heuristic for `HEADLESS_REQUIRED`             |
 | `src/probe.ts`        | Orchestrates Steps A–D and returns `TriageResult`             |
 | `src/index.ts`        | Public barrel (`probeUrl` and related helpers)                |
@@ -39,7 +39,9 @@ Step D  probe.ts     synthesize TriageAction → TriageResult
 ```
 
 Action priority (highest wins):  
-`ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS_REQUIRED` → `FETCH_RAW`
+`ERROR_UNREACHABLE` → challenge `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS_REQUIRED` → `FETCH_RAW`
+
+CDN-only Cloudflare markers (`cf-ray`, `server: cloudflare`, `__cf_bm`) are recorded as `cdn:*` evidence with `shields.detected: false` and do **not** produce `WAF_BLOCKED`. Challenge signals (`cf-mitigated`, Turnstile / “Just a moment…”, DataDome, 403/429 + challenge body) set `detected: true` and beat llms.txt.
 
 ## Probe behavior
 

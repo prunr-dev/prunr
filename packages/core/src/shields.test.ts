@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { inspectShields } from './shields.js';
 
 describe('inspectShields', () => {
-  it('detects Cloudflare from headers and cookies', () => {
+  it('does not treat CDN-only Cloudflare markers as a challenge', () => {
     const result = inspectShields({
       headers: {
         'cf-ray': 'abc123',
@@ -14,10 +14,11 @@ describe('inspectShields', () => {
       httpStatus: 200,
     });
 
-    assert.equal(result.detected, true);
-    assert.equal(result.vendor, 'cloudflare');
-    assert.ok(result.evidence.includes('cf-ray'));
-    assert.ok(result.evidence.includes('cookie:__cf_bm'));
+    assert.equal(result.detected, false);
+    assert.equal(result.vendor, null);
+    assert.ok(result.evidence.includes('cdn:cf-ray'));
+    assert.ok(result.evidence.includes('cdn:server:cloudflare'));
+    assert.ok(result.evidence.includes('cdn:cookie:__cf_bm'));
   });
 
   it('prefers Turnstile when challenge markers are present', () => {
@@ -33,6 +34,7 @@ describe('inspectShields', () => {
     assert.equal(result.detected, true);
     assert.equal(result.vendor, 'cloudflare_turnstile');
     assert.ok(result.evidence.includes('body:just-a-moment'));
+    assert.ok(result.evidence.includes('cf-mitigated'));
   });
 
   it('detects DataDome from headers and cookies', () => {
@@ -57,6 +59,18 @@ describe('inspectShields', () => {
 
     assert.equal(result.detected, true);
     assert.equal(result.vendor, 'unknown');
+  });
+
+  it('ignores cf_clearance alone on HTTP 200', () => {
+    const result = inspectShields({
+      headers: { 'cf-ray': 'abc' },
+      setCookie: ['cf_clearance=token; Path=/'],
+      httpStatus: 200,
+      bodySnippet: '<html><body>Hello</body></html>',
+    });
+
+    assert.equal(result.detected, false);
+    assert.ok(!result.evidence.includes('cookie:cf_clearance'));
   });
 
   it('returns undetected for clean responses', () => {

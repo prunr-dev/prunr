@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import { TriageForm } from '@/components/TriageForm';
 import { getApiBaseUrl } from '@/lib/api';
+import { WHY_PRUNR_CASES } from '@/lib/why-prunr';
 
 /**
  * Prunr diagnostic workspace — brand-forward Corduroy composition for triage.
@@ -34,6 +35,39 @@ export default function HomePage() {
       >
         <TriageForm />
       </Suspense>
+
+      <section
+        className="animate-rise mt-20 max-w-xl border-t border-highlight-high/40 pt-12"
+        style={{ animationDelay: '120ms' }}
+        aria-labelledby="why-prunr-heading"
+      >
+        <h2
+          id="why-prunr-heading"
+          className="font-display text-2xl font-semibold tracking-tight text-base-content"
+        >
+          Why try Prunr
+        </h2>
+        <p className="mt-3 text-base leading-relaxed text-subtle">
+          Three live outcomes from validation — not marketing placeholders.
+        </p>
+        <ul className="mt-8 flex flex-col gap-6">
+          {WHY_PRUNR_CASES.map((item) => (
+            <li key={item.id} className="flex flex-col gap-1">
+              <a
+                href={`/?url=${encodeURIComponent(item.url)}`}
+                className="font-mono text-sm text-primary underline-offset-4 hover:underline"
+              >
+                {item.url.replace(/^https:\/\//, '')}
+              </a>
+              <p className="text-base leading-relaxed text-subtle">
+                <span className="font-mono text-sm text-muted">{item.action}</span>
+                {' — '}
+                {item.summary}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <footer
         className="animate-rise mt-16 font-mono text-sm tracking-wide text-muted"
