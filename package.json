@@ -21,7 +21,8 @@
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:env-examples": "bash scripts/check-env-examples.sh"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",

@@ -22,10 +22,22 @@ export function getCorsOrigins(): string[] {
     .filter((origin) => origin.length > 0);
 }
 
+/**
+ * Whether a browser Origin may call the API.
+ * Allows configured list plus Prunr `*.vercel.app` hosts (web/api previews).
+ */
+export function isAllowedCorsOrigin(origin: string): boolean {
+  if (getCorsOrigins().includes(origin)) {
+    return true;
+  }
+  // e.g. https://prunr-web-three.vercel.app, https://prunr-api.vercel.app
+  return /^https:\/\/prunr[\w-]*\.vercel\.app$/i.test(origin);
+}
+
 /** True when Upstash Redis REST credentials are present. */
 export function hasUpstashConfig(): boolean {
   return Boolean(
     process.env['UPSTASH_REDIS_REST_URL']?.trim() &&
-    process.env['UPSTASH_REDIS_REST_TOKEN']?.trim(),
+      process.env['UPSTASH_REDIS_REST_TOKEN']?.trim(),
   );
 }

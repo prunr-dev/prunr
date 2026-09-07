@@ -32,6 +32,9 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      - name: Check env examples (no secrets)
+        run: pnpm check:env-examples
+
       - name: Typecheck
         run: pnpm typecheck
 

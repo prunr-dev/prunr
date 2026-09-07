@@ -9,7 +9,7 @@ import {
 } from '@prunr-dev/types';
 
 import { getCachedTriage, setCachedTriage } from './cache.js';
-import { API_VERSION, getCorsOrigins } from './env.js';
+import { API_VERSION, isAllowedCorsOrigin } from './env.js';
 import { checkTriageRateLimit, clientIpFromHeaders } from './rate-limit.js';
 
 /**
@@ -21,12 +21,11 @@ import { checkTriageRateLimit, clientIpFromHeaders } from './rate-limit.js';
  */
 export function createApp(): Hono {
   const app = new Hono();
-  const corsOrigins = getCorsOrigins();
 
   app.use(
     '*',
     cors({
-      origin: corsOrigins,
+      origin: (origin) => (isAllowedCorsOrigin(origin) ? origin : null),
       allowMethods: ['GET', 'OPTIONS'],
       allowHeaders: ['Content-Type'],
     }),
