@@ -17,16 +17,16 @@ export default function HomePage() {
       <main>
         <section
           id="top"
-          className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pt-[var(--nav-height)] pb-20 sm:px-10"
+          className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pt-(--nav-height) pb-20 sm:px-10"
           aria-labelledby="hero-brand"
         >
           <div
             aria-hidden
-            className="hero-orb pointer-events-none absolute -top-24 right-[-10%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-primary)_22%,transparent)_0%,transparent_68%)] blur-2xl"
+            className="hero-orb pointer-events-none absolute -top-24 right-[-10%] h-112 w-md rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-primary)_22%,transparent)_0%,transparent_68%)] blur-2xl"
           />
           <div
             aria-hidden
-            className="hero-orb pointer-events-none absolute bottom-[-8%] left-[-12%] h-[22rem] w-[22rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_18%,transparent)_0%,transparent_70%)] blur-2xl"
+            className="hero-orb pointer-events-none absolute bottom-[-8%] left-[-12%] h-88 w-88 rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_18%,transparent)_0%,transparent_70%)] blur-2xl"
             style={{ animationDelay: '-7s' }}
           />
 
@@ -67,7 +67,7 @@ export default function HomePage() {
 
         <section
           id="triage"
-          className="relative scroll-mt-[var(--nav-height)] border-t border-highlight-high/30 px-6 py-24 sm:px-10"
+          className="relative scroll-mt-(--nav-height) border-t border-highlight-high/30 px-6 py-24 sm:px-10"
           aria-labelledby="triage-heading"
         >
           <div className="mx-auto w-full max-w-5xl">
@@ -99,7 +99,7 @@ export default function HomePage() {
 
         <section
           id="about"
-          className="relative scroll-mt-[var(--nav-height)] border-t border-highlight-high/30 px-6 py-24 sm:px-10"
+          className="relative scroll-mt-(--nav-height) border-t border-highlight-high/30 px-6 py-24 sm:px-10"
           aria-labelledby="about-heading"
         >
           <div className="mx-auto w-full max-w-5xl">

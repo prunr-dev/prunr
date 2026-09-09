@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Nunito, Space_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 
 import './globals.css';
 
@@ -34,7 +35,10 @@ export default function RootLayout({
       data-theme="corduroy"
       className={`${spaceMono.variable} ${nunito.variable}`}
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
