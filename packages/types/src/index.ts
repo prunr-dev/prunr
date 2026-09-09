@@ -9,6 +9,8 @@ export type {
   ProbeErrorCode,
   ShieldTelemetry,
   LlmsTxtDiscovery,
+  TokenEstimateMethod,
+  TokenEstimate,
   TriageResult,
   ProbeSignals,
 } from './triage.js';

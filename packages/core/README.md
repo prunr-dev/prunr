@@ -17,6 +17,7 @@ Triage logic must be identical whether the caller is the REST API or the MCP ser
 | `src/llms-txt.ts`     | Discover `/llms.txt` and `/.well-known/llms.txt`              |
 | `src/shields.ts`      | Challenge-grade Cloudflare / Turnstile / DataDome heuristics (CDN-only ≠ WAF) |
 | `src/spa.ts`          | Empty SPA-shell heuristic for `HEADLESS_REQUIRED`             |
+| `src/token-estimate.ts` | Byte-heuristic `tokenEstimate` (baseline / action / %)      |
 | `src/probe.ts`        | Orchestrates Steps A–D and returns `TriageResult`             |
 | `src/index.ts`        | Public barrel (`probeUrl` and related helpers)                |
 
@@ -50,6 +51,7 @@ CDN-only Cloudflare markers (`cf-ray`, `server: cloudflare`, `__cf_bm`) are reco
 - **Body cap:** first ~4KB retained for shield / SPA sniffing (`byteLength` recorded).
 - **SSRF:** fail closed on DNS errors; reject loopback, RFC1918, link-local, ULA, and metadata IPs (including IPv4-mapped).
 - **llms.txt:** prefers `/llms.txt` over `/.well-known/llms.txt` when both return text `200`s.
+- **Token estimate:** byte-heuristic from observed / `Content-Length` sizes (`tokenEstimate`); not measured agent usage.
 - **Errors:** DNS / timeout / network failures become `TriageResult` with `action: ERROR_UNREACHABLE` (not thrown). Invalid URL / SSRF reasons stay recognizable for the API’s RFC 7807 mapping.
 
 ## Status

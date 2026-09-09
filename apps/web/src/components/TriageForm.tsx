@@ -158,7 +158,7 @@ export function TriageForm() {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-primary join-item animate-pulse-primary min-w-28 font-display"
+              className="btn btn-primary join-item animate-pulse-primary min-w-28 font-display text-sm font-bold tracking-wide"
             >
               {loading ? (
                 <span className="loading loading-spinner loading-sm" />
@@ -209,8 +209,15 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
 
       <dl className="mt-6 grid gap-4 font-mono text-sm sm:grid-cols-2">
         <Stat
-          label="Token savings"
-          value={`${result.estimatedTokenSavingsPercent}%`}
+          label="Est. token savings"
+          value={`${result.tokenEstimate.savingsPercent}%`}
+        />
+        <Stat
+          label="Tokens (baseline → action)"
+          value={formatTokenPath(
+            result.tokenEstimate.baselineTokens,
+            result.tokenEstimate.actionTokens,
+          )}
         />
         <Stat label="Latency" value={`${result.latencyMs} ms`} />
         <Stat
@@ -260,6 +267,18 @@ function TriageResultPanel({ result }: { result: TriageResult }) {
       </p>
     </section>
   );
+}
+
+function formatTokenPath(baseline: number, action: number): string {
+  return `${formatTokenCount(baseline)} → ${formatTokenCount(action)}`;
+}
+
+function formatTokenCount(n: number): string {
+  if (n >= 1000) {
+    const k = n / 1000;
+    return `${k >= 10 ? Math.round(k) : k.toFixed(1).replace(/\.0$/, '')}k`;
+  }
+  return String(n);
 }
 
 function Stat({ label, value }: { label: string; value: string }) {

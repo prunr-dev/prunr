@@ -17,20 +17,10 @@ import {
   validateProbeTarget,
   type ValidateProbeTargetOptions,
 } from './ssrf.js';
+import { estimateTokens, parseContentLength } from './token-estimate.js';
 
 /** Default per-request timeout budget for all outbound probes. */
 export const PROBE_TIMEOUT_MS = 2000 as const;
-
-/**
- * Heuristic token-savings defaults by recommended action (tunable later).
- */
-export const TOKEN_SAVINGS_BY_ACTION = {
-  USE_LLMS_TXT: 85,
-  FETCH_RAW: 40,
-  HEADLESS_REQUIRED: 10,
-  WAF_BLOCKED: 0,
-  ERROR_UNREACHABLE: 0,
-} as const satisfies Record<TriageResult['action'], number>;
 
 export interface ProbeUrlOptions
   extends ValidateProbeTargetOptions, FetchOriginOptions {
@@ -53,7 +43,7 @@ export interface ProbeUrlOptions
  * Inspect headers, cookies, and a capped body snippet for WAF markers.
  *
  * **Step D — Synthesize**
- * Apply action priority and fill savings / reason / latency metadata.
+ * Apply action priority and fill token estimate / reason / latency metadata.
  *
  * Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` →
  * `HEADLESS_REQUIRED` → `FETCH_RAW`.
@@ -80,6 +70,8 @@ export async function probeUrl(
       probedAt,
       llmsTxt: emptyLlmsTxtDiscovery(),
       shields: emptyShieldTelemetry(),
+      originByteLength: null,
+      originContentLength: null,
     });
   }
 
@@ -117,6 +109,10 @@ export async function probeUrl(
     probedAt,
     llmsTxt,
     shields,
+    originByteLength: originResult.ok ? originResult.byteLength : null,
+    originContentLength: originResult.ok
+      ? parseContentLength(originResult.headers)
+      : null,
   });
 }
 
@@ -184,11 +180,18 @@ function buildResult(args: {
   probedAt: string;
   llmsTxt: LlmsTxtDiscovery;
   shields: ShieldTelemetry;
+  originByteLength: number | null;
+  originContentLength: number | null;
 }): TriageResult {
   return {
     url: args.url,
     action: args.action,
-    estimatedTokenSavingsPercent: TOKEN_SAVINGS_BY_ACTION[args.action],
+    tokenEstimate: estimateTokens({
+      action: args.action,
+      llmsTxt: args.llmsTxt,
+      originByteLength: args.originByteLength,
+      originContentLength: args.originContentLength,
+    }),
     llmsTxt: args.llmsTxt,
     shields: args.shields,
     latencyMs: args.latencyMs,

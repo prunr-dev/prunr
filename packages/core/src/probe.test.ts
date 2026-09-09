@@ -242,7 +242,9 @@ describe('probeUrl', () => {
     });
 
     assert.equal(result.action, 'FETCH_RAW');
-    assert.equal(result.estimatedTokenSavingsPercent, 40);
+    assert.equal(result.tokenEstimate.method, 'byte_heuristic');
+    assert.ok(result.tokenEstimate.baselineTokens > result.tokenEstimate.actionTokens);
+    assert.ok(result.tokenEstimate.savingsPercent > 0);
     assert.ok(result.latencyMs >= 0);
   });
 
@@ -276,6 +278,11 @@ describe('probeUrl', () => {
     assert.equal(result.action, 'USE_LLMS_TXT');
     assert.equal(result.llmsTxt.found, true);
     assert.equal(result.llmsTxt.path, '/llms.txt');
+    assert.equal(result.tokenEstimate.method, 'byte_heuristic');
+    assert.ok(result.tokenEstimate.actionTokens > 0);
+    assert.ok(
+      result.tokenEstimate.baselineTokens >= result.tokenEstimate.actionTokens,
+    );
   });
 
   it('synthesizes WAF_BLOCKED for Cloudflare challenge pages', async () => {

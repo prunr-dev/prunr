@@ -9,9 +9,20 @@ export {
   probeUrl,
   synthesizeAction,
   PROBE_TIMEOUT_MS,
-  TOKEN_SAVINGS_BY_ACTION,
   type ProbeUrlOptions,
 } from './probe.js';
+
+export {
+  estimateTokens,
+  bytesToTokens,
+  resolveHtmlBytes,
+  parseContentLength,
+  CHARS_PER_TOKEN,
+  DEFAULT_HTML_BASELINE_BYTES,
+  RAW_VS_HEADLESS_OVERHEAD,
+  MAX_SAVINGS_PERCENT,
+  type EstimateTokenInput,
+} from './token-estimate.js';
 
 export {
   validateProbeTarget,

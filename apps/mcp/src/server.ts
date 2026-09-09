@@ -19,12 +19,11 @@ export function createMcpServer(): McpServer {
     {
       description:
         'Pre-flight triage for a URL: recommend USE_LLMS_TXT, FETCH_RAW, HEADLESS_REQUIRED, WAF_BLOCKED, or ERROR_UNREACHABLE before the agent fetches content.',
-      inputSchema: {
+      inputSchema: z.object({
         url: z
-          .string()
-          .url()
+          .httpUrl()
           .describe('Absolute http(s) URL to inspect before fetching'),
-      },
+      }),
     },
     async ({ url }) => {
       const result = await probeUrl(url);

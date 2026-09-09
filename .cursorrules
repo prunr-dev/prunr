@@ -13,7 +13,7 @@ You are an expert systems engineer and API designer helping build **savemytokens
 ### Project Core Mission
 
 savemytokens is an ultra-fast pre-flight triage API and Model Context Protocol (MCP) server for AI web agents.
-Before an agent navigates to a URL, savemytokens inspects it in <100ms to determine the cheapest, fastest, and most token-efficient way to fetch its content.
+Before an agent navigates to a URL, savemytokens inspects it to determine the cheapest, fastest, and most token-efficient way to fetch its content.
 
 ### The 4 Core Decisions savemytokens Evaluates
 

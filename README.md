@@ -2,7 +2,7 @@
 
 Ultra-fast pre-flight triage for AI web agents.
 
-Before an agent fetches a URL, savemytokens inspects it in under ~100ms and recommends the cheapest, fastest way to get the content:
+Before an agent fetches a URL, savemytokens inspects it and recommends the cheapest, fastest way to get the content:
 
 | Action              | Meaning                                                |
 | ------------------- | ------------------------------------------------------ |
@@ -102,4 +102,4 @@ Two projects from the same repo:
 
 Enable “include files outside root directory” so workspace packages resolve. See [`apps/api/README.md`](apps/api/README.md) and [`apps/web/README.md`](apps/web/README.md).
 
-MCP remains **local stdio** for IDE agents; for a zero-install try, call the hosted REST API instead.
+MCP remains **local stdio** for IDE agents — setup guide: [`apps/mcp/README.md`](apps/mcp/README.md). For a zero-install try, call the hosted REST API instead.

@@ -58,17 +58,38 @@ export interface LlmsTxtDiscovery {
 }
 
 /**
+ * How {@link TokenEstimate} numbers were produced.
+ * `byte_heuristic` converts observed/default byte sizes via a chars-per-token proxy.
+ */
+export type TokenEstimateMethod = 'byte_heuristic';
+
+/**
+ * Byte-derived token estimate vs a naive crawl path.
+ * Provisional until measured MCP on/off harness data exists.
+ */
+export interface TokenEstimate {
+  /** Naive crawl/extract path (tokens). */
+  baselineTokens: number;
+  /** Tokens if the recommended action is followed. */
+  actionTokens: number;
+  /**
+   * Derived: `max(0, round((1 - action/baseline) * 100))`, or `0` when baseline is 0.
+   * Capped at 95 for partial reads.
+   */
+  savingsPercent: number;
+  /** How the numbers were produced. */
+  method: TokenEstimateMethod;
+}
+
+/**
  * Canonical triage response shared by REST, MCP, and the web visualizer.
  */
 export interface TriageResult {
   /** Normalized absolute URL that was probed. */
   url: string;
   action: TriageAction;
-  /**
-   * Heuristic percent of tokens avoided vs a naive HTML crawl + LLM extract.
-   * Range 0–100; 0 when unreachable or already minimal.
-   */
-  estimatedTokenSavingsPercent: number;
+  /** Byte-heuristic token estimate vs a naive crawl (not measured agent usage). */
+  tokenEstimate: TokenEstimate;
   llmsTxt: LlmsTxtDiscovery;
   shields: ShieldTelemetry;
   /** Wall-clock probe duration in milliseconds. */

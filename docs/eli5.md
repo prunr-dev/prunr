@@ -32,7 +32,7 @@ You give it a URL. It comes back with one of these **actions**:
 4. **`WAF_BLOCKED`** — Cloudflare/DataDome challenge → don’t burn proxies yet
 5. **`ERROR_UNREACHABLE`** — timed out, DNS failed, bad/private URL, etc.
 
-Plus extras: reason, token-savings guess, latency, whether `llms.txt` was found, shield clues.
+Plus extras: reason, byte-heuristic `tokenEstimate` (baseline → action tokens + derived %), latency, whether `llms.txt` was found, shield clues.
 
 ---
 

@@ -1,83 +1,143 @@
 import { Suspense } from 'react';
 
+import { SiteNav } from '@/components/SiteNav';
 import { TriageForm } from '@/components/TriageForm';
 import { getApiBaseUrl } from '@/lib/api';
-import { WHY_SAVEMYTOKENS_CASES } from '@/lib/why-savemytokens';
 
 /**
- * savemytokens diagnostic workspace — brand-forward Corduroy composition for triage.
+ * Single-page marketing shell: hero → triage workspace → about.
  */
 export default function HomePage() {
   const apiBase = getApiBaseUrl();
 
   return (
-    <main className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col justify-center px-6 py-16 sm:px-10">
-      <header className="animate-rise mb-12 max-w-xl">
-        <p className="font-mono text-sm tracking-[0.18em] text-primary uppercase">
-          savemytokens.dev
-        </p>
-        <h1 className="mt-4 font-display text-5xl font-semibold tracking-tight text-base-content sm:text-6xl">
-          savemytokens
-        </h1>
-        <p className="mt-4 max-w-md text-lg leading-relaxed text-subtle">
-          Pre-flight triage for AI agents. Paste a URL to see the cheapest way
-          to fetch it — before the crawl burns tokens.
-        </p>
-      </header>
+    <>
+      <SiteNav />
 
-      <Suspense
-        fallback={
-          <div className="flex items-center gap-3 text-subtle">
-            <span className="loading loading-spinner loading-sm" />
-            <span className="font-mono text-base">Loading…</span>
-          </div>
-        }
-      >
-        <TriageForm />
-      </Suspense>
-
-      <section
-        className="animate-rise mt-20 max-w-xl border-t border-highlight-high/40 pt-12"
-        style={{ animationDelay: '120ms' }}
-        aria-labelledby="why-savemytokens-heading"
-      >
-        <h2
-          id="why-savemytokens-heading"
-          className="font-display text-2xl font-semibold tracking-tight text-base-content"
+      <main>
+        <section
+          id="top"
+          className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pt-[var(--nav-height)] pb-20 sm:px-10"
+          aria-labelledby="hero-brand"
         >
-          Why try savemytokens
-        </h2>
-        <p className="mt-3 text-base leading-relaxed text-subtle">
-          Three live outcomes from validation — not marketing placeholders.
-        </p>
-        <ul className="mt-8 flex flex-col gap-6">
-          {WHY_SAVEMYTOKENS_CASES.map((item) => (
-            <li key={item.id} className="flex flex-col gap-1">
-              <a
-                href={`/?url=${encodeURIComponent(item.url)}`}
-                className="font-mono text-sm text-primary underline-offset-4 hover:underline"
-              >
-                {item.url.replace(/^https:\/\//, '')}
-              </a>
-              <p className="text-base leading-relaxed text-subtle">
-                <span className="font-mono text-sm text-muted">{item.action}</span>
-                {' — '}
-                {item.summary}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </section>
+          <div
+            aria-hidden
+            className="hero-orb pointer-events-none absolute -top-24 right-[-10%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-primary)_22%,transparent)_0%,transparent_68%)] blur-2xl"
+          />
+          <div
+            aria-hidden
+            className="hero-orb pointer-events-none absolute bottom-[-8%] left-[-12%] h-[22rem] w-[22rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_18%,transparent)_0%,transparent_70%)] blur-2xl"
+            style={{ animationDelay: '-7s' }}
+          />
 
-      <footer
-        className="animate-rise mt-16 font-mono text-sm tracking-wide text-muted"
-        style={{ animationDelay: '160ms' }}
-      >
-        Calls <span className="text-subtle">GET /v1/triage</span> on{' '}
-        <span className="text-subtle">{apiBase}</span>
-        {' · '}
-        probe engine: <span className="text-subtle">@savemytokens/core</span>
+          <div className="relative mx-auto w-full max-w-5xl">
+            <h1
+              id="hero-brand"
+              className="animate-hero-fade mt-5 font-display text-5xl font-bold tracking-tight text-base-content sm:text-7xl lg:text-8xl"
+              style={{ animationDelay: '120ms' }}
+            >
+              savemytokens
+            </h1>
+            <p
+              className="animate-hero-fade mt-6 max-w-lg font-sans text-xl leading-relaxed text-subtle sm:text-2xl"
+              style={{ animationDelay: '220ms' }}
+            >
+              Pre-flight triage for AI agents — know the cheapest fetch path
+              before the crawl burns tokens.
+            </p>
+            <div
+              className="animate-hero-fade mt-10 flex flex-wrap items-center gap-4"
+              style={{ animationDelay: '320ms' }}
+            >
+              <a
+                href="#triage"
+                className="btn btn-primary animate-pulse-primary px-6 font-display text-sm font-bold tracking-wide"
+              >
+                Try it live
+              </a>
+              <a
+                href="#about"
+                className="font-sans text-sm font-medium text-subtle underline-offset-4 transition-colors hover:text-base-content hover:underline"
+              >
+                How it works
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="triage"
+          className="relative scroll-mt-[var(--nav-height)] border-t border-highlight-high/30 px-6 py-24 sm:px-10"
+          aria-labelledby="triage-heading"
+        >
+          <div className="mx-auto w-full max-w-5xl">
+            <h2
+              id="triage-heading"
+              className="font-display text-3xl font-bold tracking-tight text-base-content sm:text-4xl"
+            >
+              Run triage
+            </h2>
+            <p className="mt-3 max-w-xl font-sans text-lg leading-relaxed text-subtle">
+              Paste a URL. Get a recommended action — llms.txt, raw fetch,
+              headless, or abort on WAF.
+            </p>
+
+            <div className="mt-12">
+              <Suspense
+                fallback={
+                  <div className="flex items-center gap-3 text-subtle">
+                    <span className="loading loading-spinner loading-sm" />
+                    <span className="font-mono text-base">Loading…</span>
+                  </div>
+                }
+              >
+                <TriageForm />
+              </Suspense>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="about"
+          className="relative scroll-mt-[var(--nav-height)] border-t border-highlight-high/30 px-6 py-24 sm:px-10"
+          aria-labelledby="about-heading"
+        >
+          <div className="mx-auto w-full max-w-5xl">
+            <h2
+              id="about-heading"
+              className="font-display text-3xl font-bold tracking-tight text-base-content sm:text-4xl"
+            >
+              About
+            </h2>
+            <p className="mt-4 max-w-2xl font-sans text-lg leading-relaxed text-subtle">
+              savemytokens is an ultra-fast pre-flight probe for AI web agents.
+              Before navigation, it inspects a target URL and returns the
+              cheapest, fastest, most token-efficient way to fetch content.
+            </p>
+            <p className="mt-8 font-mono text-sm tracking-wide text-muted">
+              Calls <span className="text-subtle">GET /v1/triage</span> on{' '}
+              <span className="text-subtle">{apiBase}</span>
+              {' · '}
+              probe engine:{' '}
+              <span className="text-subtle">@savemytokens/core</span>
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-highlight-high/30 px-6 py-8 sm:px-10">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 font-mono text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+          <span>© {new Date().getFullYear()} savemytokens</span>
+          <a
+            href="https://github.com/savemytokens/savemytokens"
+            className="text-subtle transition-colors hover:text-primary"
+            rel="noreferrer"
+            target="_blank"
+          >
+            github.com/savemytokens/savemytokens
+          </a>
+        </div>
       </footer>
-    </main>
+    </>
   );
 }

@@ -17,7 +17,8 @@ REST, MCP, and the web UI must agree on the shape of a triage response and API e
 ## Key types
 
 - **`TriageAction`** — recommended strategy (`USE_LLMS_TXT`, `FETCH_RAW`, `HEADLESS_REQUIRED`, `WAF_BLOCKED`, `ERROR_UNREACHABLE`).
-- **`TriageResult`** — public response: URL, action, token-savings estimate, llms.txt discovery, shield telemetry, latency, reason.
+- **`TriageResult`** — public response: URL, action, byte-heuristic `tokenEstimate`, llms.txt discovery, shield telemetry, latency, reason.
+- **`TokenEstimate`** — `baselineTokens` / `actionTokens` / derived `savingsPercent` (`method: 'byte_heuristic'`).
 - **`ProbeSignals`** — internal signals collected during a probe (headers, body snippet, error code) before synthesis.
 - **`ProblemDetails`** — RFC 7807 error body for the HTTP API (`type`, `title`, `status`, optional `detail` / `code`).
 

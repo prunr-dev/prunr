@@ -43,16 +43,23 @@
   --highlight-low: #251f28;
   --highlight-med: #443c4a;
   --highlight-high: #504757;
+  --nav-height: 4.25rem;
 }
 
 @theme inline {
-  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-display: var(--font-space-mono), ui-monospace, monospace;
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
   --color-highlight-low: var(--highlight-low);
   --color-highlight-med: var(--highlight-med);
   --color-highlight-high: var(--highlight-high);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
 }
 
 html,
@@ -119,10 +126,52 @@ body::before {
   }
 }
 
+@keyframes hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -1.5%, 0) scale(1.04);
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-rise {
   animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-pulse-primary {
   animation: pulse-primary 2s ease-out infinite;
+}
+
+.animate-hero-fade {
+  animation: hero-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-orb {
+  animation: hero-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-rise,
+  .animate-pulse-primary,
+  .animate-hero-fade,
+  .hero-orb {
+    animation: none;
+  }
 }

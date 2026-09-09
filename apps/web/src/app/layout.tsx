@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono, Syne } from 'next/font/google';
+import { Nunito, Space_Mono } from 'next/font/google';
 
 import './globals.css';
 
-const syne = Syne({
+const spaceMono = Space_Mono({
   subsets: ['latin'],
-  variable: '--font-syne',
+  weight: ['400', '700'],
+  variable: '--font-space-mono',
   display: 'swap',
 });
 
-const plexMono = IBM_Plex_Mono({
+const nunito = Nunito({
   subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-plex-mono',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-nunito',
   display: 'swap',
 });
 
@@ -31,9 +32,9 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="corduroy"
-      className={`${syne.variable} ${plexMono.variable}`}
+      className={`${spaceMono.variable} ${nunito.variable}`}
     >
-      <body className="font-display antialiased">{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
