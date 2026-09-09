@@ -381,7 +381,10 @@ function sessionPitch(rows: UrlComparison[]): string {
   ].join('\n');
 }
 
-async function promptYesNo(question: string, defaultYes = false): Promise<boolean> {
+async function promptYesNo(
+  question: string,
+  defaultYes = false,
+): Promise<boolean> {
   if (!process.stdin.isTTY || !process.stdout.isTTY) {
     return defaultYes;
   }
@@ -393,7 +396,9 @@ async function promptYesNo(question: string, defaultYes = false): Promise<boolea
   });
   try {
     const hint = defaultYes ? 'Y/n' : 'y/N';
-    const answer = (await rl.question(`${question} (${hint}) `)).trim().toLowerCase();
+    const answer = (await rl.question(`${question} (${hint}) `))
+      .trim()
+      .toLowerCase();
     if (answer === '') {
       return defaultYes;
     }
@@ -450,8 +455,7 @@ async function main(): Promise<void> {
   console.log(sessionPitch(comparisons));
 
   const printJson =
-    jsonFlag ??
-    (await promptYesNo('Print JSON summary?', false));
+    jsonFlag ?? (await promptYesNo('Print JSON summary?', false));
 
   if (printJson) {
     console.log('\n## JSON\n');

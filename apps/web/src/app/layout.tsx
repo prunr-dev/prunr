@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css';
+import { cn } from '@/lib/utils';
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
@@ -33,8 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="corduroy"
-      className={`${spaceMono.variable} ${nunito.variable}`}
+      className={cn('dark', spaceMono.variable, nunito.variable, 'font-sans')}
     >
       <body className="font-sans antialiased">
         {children}

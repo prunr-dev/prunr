@@ -1,6 +1,6 @@
 # `@savemytokens/web`
 
-Next.js + Tailwind + **daisyUI** diagnostic visualizer for [savemytokens.dev](https://savemytokens.dev). Corduroy-themed UI for pasting a URL, calling the REST API, and inspecting a `TriageResult`.
+Next.js + Tailwind + **shadcn/ui** (Radix) diagnostic visualizer for [savemytokens.dev](https://savemytokens.dev). Corduroy-themed dark UI for pasting a URL, calling the REST API, and inspecting a `TriageResult` — including a token-estimate chart on results.
 
 ## Why this app exists
 
@@ -8,20 +8,22 @@ Operators and agent authors need a quick UI to see what savemytokens would recom
 
 ## Files
 
-| Path                            | Purpose                                         |
-| ------------------------------- | ----------------------------------------------- |
-| `src/app/layout.tsx`            | Root shell, fonts, `data-theme="corduroy"`      |
-| `src/app/page.tsx`              | Brand-forward triage workspace                  |
-| `src/app/globals.css`           | Tailwind 4 + daisyUI + Corduroy theme + motion  |
-| `src/components/TriageForm.tsx` | Form, presets, `?url=` sync, result panel       |
-| `src/lib/api.ts`                | Fetch helper + env-based API base URL           |
-| `src/lib/presets.ts`            | Demo URL chips (labels may drift vs live sites) |
-| `next.config.ts`                | `transpilePackages: ['@savemytokens/types']`    |
-| `.env.example`                  | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`              |
+| Path                            | Purpose                                           |
+| ------------------------------- | ------------------------------------------------- |
+| `src/app/layout.tsx`            | Root shell, fonts, `className="dark"`             |
+| `src/app/page.tsx`              | Brand-forward triage workspace                    |
+| `src/app/globals.css`           | Tailwind 4 + shadcn tokens (corduroy) + motion    |
+| `src/components/TriageForm.tsx` | Form, presets, `?url=` sync, result card + chart  |
+| `src/components/ui/*`           | shadcn primitives (button, input, card, chart, …) |
+| `src/lib/api.ts`                | Fetch helper + env-based API base URL             |
+| `src/lib/presets.ts`            | Demo URL chips (labels may drift vs live sites)   |
+| `components.json`               | shadcn config (`--base radix`)                    |
+| `next.config.ts`                | `transpilePackages: ['@savemytokens/types']`      |
+| `.env.example`                  | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`                |
 
 ## Theme
 
-Custom daisyUI theme **`corduroy`** maps the Corduroy editor palette (`base` / `rayon` / `argyle` / `chenille` / …) onto daisy semantic tokens. Fonts: **Syne** (display) + **IBM Plex Mono** (labels/code).
+Corduroy dark palette is mapped onto shadcn CSS variables (`--background`, `--primary`, `--chart-*`, …). Fonts: **Space Mono** (display/mono) + **Nunito** (body) via `next/font`.
 
 ## How it talks to the engine
 
