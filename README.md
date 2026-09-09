@@ -12,7 +12,7 @@ Before an agent fetches a URL, savemytokens inspects it and recommends the cheap
 | `WAF_BLOCKED`       | Edge bot shield detected — abort or route to unblocker |
 | `ERROR_UNREACHABLE` | Timeout, DNS failure, SSRF block, or network error     |
 
-**Site:** [savemytokens.dev](https://savemytokens.dev) · **Repo:** [savemytokens/savemytokens](https://github.com/savemytokens/savemytokens)
+**Site:** [savemytokens.vercel.app](https://savemytokens.vercel.app) · **Repo:** [savemytokens/savemytokens](https://github.com/savemytokens/savemytokens)
 
 ## Try it
 
@@ -20,7 +20,7 @@ Before an agent fetches a URL, savemytokens inspects it and recommends the cheap
 curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"
 ```
 
-Or open the visualizer at [savemytokens.dev](https://savemytokens.dev).
+Or open the visualizer at [savemytokens.vercel.app](https://savemytokens.vercel.app).
 
 ## Use with an IDE agent (MCP)
 
