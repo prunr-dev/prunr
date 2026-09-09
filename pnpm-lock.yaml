@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@savemytokens/core':
+        specifier: workspace:*
+        version: link:packages/core
+      '@savemytokens/types':
+        specifier: workspace:*
+        version: link:packages/types
     devDependencies:
       '@types/node':
         specifier: ^24.13.3
@@ -14,6 +21,9 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.9.6
+      tsx:
+        specifier: ^4.19.4
+        version: 4.23.13
       turbo:
         specifier: ^2.5.4
         version: 2.10.12

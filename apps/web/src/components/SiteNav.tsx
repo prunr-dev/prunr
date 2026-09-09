@@ -49,7 +49,7 @@ export function SiteNav() {
           : 'border-b border-transparent bg-transparent'
       }`}
     >
-      <div className="mx-auto flex h-[var(--nav-height)] w-full max-w-6xl items-center justify-between gap-6 px-6 sm:px-10">
+      <div className="mx-auto flex h-(--nav-height) w-full max-w-6xl items-center justify-between gap-6 px-6 sm:px-10">
         <a
           href="#top"
           className="font-display text-sm font-bold tracking-[0.08em] text-base-content transition-colors hover:text-primary"

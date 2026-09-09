@@ -6,7 +6,7 @@ Thin transport layer over `@savemytokens/core` — same decision engine as the R
 
 ## Prerequisites
 
-- **Node.js 24+** (pinned to `24.x` for Vercel; see repo `.node-version`)
+- **Node.js 24 or 25** (see `.node-version`; Vercel uses 24.x)
 - This monorepo cloned locally (`pnpm install` at the repo root)
 - Outbound network access (the probe fetches public URLs)
 - Package is **`private` / not published to npm** — there is no `npx @savemytokens/mcp` yet
@@ -103,7 +103,7 @@ curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"
 | `Cannot find module` / import errors             | Re-run `pnpm install` and `pnpm --filter @savemytokens/mcp build` |
 | Stale behavior after code changes                | Rebuild `dist/` — clients run the compiled entry, not `src/`      |
 | Wrong path                                       | `args` must be an **absolute** path to `apps/mcp/dist/index.js`   |
-| Node version errors                              | Use Node 24 (`node -v`; see `.node-version`)                      |
+| Node version errors                              | Use Node 24 or 25 (`node -v`; see `.node-version`)                |
 | Probe returns `ERROR_UNREACHABLE` for local URLs | Expected — SSRF guard blocks private targets                      |
 
 ## Run manually (optional)

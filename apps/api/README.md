@@ -55,7 +55,7 @@ Create a Vercel project with **Framework Preset: Hono** (native backend — `exp
 - **Include files outside root directory in Build Step:** **on** (required — workspace packages live in `packages/*`)
 - Install / Build are set in [`vercel.json`](./vercel.json) (`pnpm install` + build `types` then `core` from the monorepo root)
 - Env: `CORS_ORIGINS`, Upstash URL/token (skip `PORT`)
-- Node: pinned to `24.x` via `engines` / `.node-version` (Vercel’s current documented major; avoid bare `>=N`, which auto-upgrades)
+- Node: `engines` is `24.x || 25.x` (local Node 25 OK); `.node-version` / Vercel stay on 24.x LTS
 
 Do **not** use the old `api/` + `hono/vercel` `handle()` + catch-all rewrite pattern — it hangs under Vercel’s Hono backend runtime.
 
