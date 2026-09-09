@@ -24,7 +24,7 @@ Before an agent navigates to a URL, savemytokens inspects it to determine the ch
 
 ### Architectural Constraints
 
-- **Language & Runtime:** TypeScript, Node.js 20+ (ESM).
+- **Language & Runtime:** TypeScript, Node.js 24+ (ESM).
 - **Core Dependencies:** Keep dependencies minimal. Use native `fetch` with strict `AbortSignal.timeout(2000)` timeouts.
 - **SSRF Guard:** Never probe private IPs (`127.0.0.1`, `localhost`, `10.x.x.x`, `169.254.169.254`).
 - **Code Quality:** Fully typed interfaces, zero `any`, descriptive JSDoc comments, clean modular architecture.
