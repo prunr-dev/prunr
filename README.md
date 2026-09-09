@@ -30,13 +30,15 @@ Setup: [`apps/mcp/README.md`](apps/mcp/README.md)
 
 ## Develop locally
 
-Requires **Node.js 24** (see `.node-version`) and **pnpm 10+**.
+Requires **Node.js 24 or 25** (see `.node-version`; Vercel uses 24.x) and **pnpm 10+**.
 
 ```bash
 pnpm install
 pnpm build
 pnpm --filter @savemytokens/api dev    # http://localhost:8787
 pnpm --filter @savemytokens/web dev    # http://localhost:3000
+pnpm ab:triage                         # with_triage vs naive crawl A/B
+pnpm ab:triage -- --json               # include JSON dump
 ```
 
 ## Learn more

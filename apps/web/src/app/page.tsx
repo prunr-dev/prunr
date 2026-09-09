@@ -5,7 +5,7 @@ import { TriageForm } from '@/components/TriageForm';
 import { getApiBaseUrl } from '@/lib/api';
 
 /**
- * Single-page marketing shell: hero → triage workspace → about.
+ * Single-page marketing shell: hero → triage → usage → about.
  */
 export default function HomePage() {
   const apiBase = getApiBaseUrl();
@@ -56,10 +56,10 @@ export default function HomePage() {
                 Try it live
               </a>
               <a
-                href="#about"
+                href="#usage"
                 className="font-sans text-sm font-medium text-subtle underline-offset-4 transition-colors hover:text-base-content hover:underline"
               >
-                How it works
+                How to use it
               </a>
             </div>
           </div>
@@ -98,6 +98,96 @@ export default function HomePage() {
         </section>
 
         <section
+          id="usage"
+          className="relative scroll-mt-(--nav-height) border-t border-highlight-high/30 px-6 py-24 sm:px-10"
+          aria-labelledby="usage-heading"
+        >
+          <div className="mx-auto w-full max-w-5xl">
+            <h2
+              id="usage-heading"
+              className="font-display text-3xl font-bold tracking-tight text-base-content sm:text-4xl"
+            >
+              Usage
+            </h2>
+            <p className="mt-3 max-w-2xl font-sans text-lg leading-relaxed text-subtle">
+              Call triage before you fetch. Then follow the recommended action
+              instead of defaulting to a full HTML crawl or headless browser.
+            </p>
+
+            <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-base-content">
+              REST
+            </h3>
+            <pre className="mt-4 overflow-x-auto rounded-box border border-highlight-high/40 bg-base-200/60 p-4 font-mono text-sm leading-relaxed text-base-content">
+              <code>{`curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"`}</code>
+            </pre>
+
+            <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-base-content">
+              MCP
+            </h3>
+            <p className="mt-3 max-w-2xl font-sans text-base leading-relaxed text-subtle">
+              Point Cursor or Claude Desktop at the local stdio server, then ask
+              the agent to call{' '}
+              <span className="font-mono text-sm text-base-content">
+                triage_url
+              </span>{' '}
+              before fetching a page.{' '}
+              <a
+                href="https://github.com/savemytokens/savemytokens/blob/main/apps/mcp/README.md"
+                className="text-primary underline-offset-4 hover:underline"
+                rel="noreferrer"
+                target="_blank"
+              >
+                MCP setup guide
+              </a>
+              .
+            </p>
+
+            <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-base-content">
+              Why it matters
+            </h3>
+            <p className="mt-3 max-w-2xl font-sans text-base leading-relaxed text-subtle">
+              Building a small feature often means an agent opens many docs and
+              package pages. Triage first: use{' '}
+              <span className="font-mono text-sm text-base-content">
+                llms.txt
+              </span>{' '}
+              when it exists, raw GET when HTML is enough, and abort on WAF
+              instead of stuffing challenge pages into context. Run{' '}
+              <span className="font-mono text-sm text-base-content">
+                pnpm ab:triage
+              </span>{' '}
+              locally for a live with/without session estimate (bytes → tokens
+              heuristic — not measured LLM billing).
+            </p>
+
+            <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-base-content">
+              Follow the action
+            </h3>
+            <ul className="mt-4 max-w-2xl list-disc space-y-2 pl-5 font-sans text-base leading-relaxed text-subtle">
+              <li>
+                <span className="font-mono text-sm text-base-content">
+                  USE_LLMS_TXT
+                </span>{' '}
+                — fetch the discovered Markdown; skip crawling HTML.
+              </li>
+              <li>
+                <span className="font-mono text-sm text-base-content">
+                  FETCH_RAW
+                </span>{' '}
+                — plain HTTP GET is enough; no headless browser.
+              </li>
+              <li>
+                <span className="font-mono text-sm text-base-content">
+                  WAF_BLOCKED
+                </span>{' '}
+                — abort or route to an unblocker before burning proxy
+                reputation.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section
           id="about"
           className="relative scroll-mt-(--nav-height) border-t border-highlight-high/30 px-6 py-24 sm:px-10"
           aria-labelledby="about-heading"
@@ -110,9 +200,9 @@ export default function HomePage() {
               About
             </h2>
             <p className="mt-4 max-w-2xl font-sans text-lg leading-relaxed text-subtle">
-              savemytokens is an ultra-fast pre-flight probe for AI web agents.
-              Before navigation, it inspects a target URL and returns the
-              cheapest, fastest, most token-efficient way to fetch content.
+              savemytokens is a pre-flight probe for AI web agents. Before
+              navigation, it inspects a target URL and returns the cheapest,
+              most token-efficient way to fetch content.
             </p>
             <p className="mt-8 font-mono text-sm tracking-wide text-muted">
               Calls <span className="text-subtle">GET /v1/triage</span> on{' '}

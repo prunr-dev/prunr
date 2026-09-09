@@ -11,7 +11,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.26.0",
   "engines": {
-    "node": "24.x"
+    "node": "24.x || 25.x"
   },
   "scripts": {
     "build": "turbo run build",
@@ -22,11 +22,17 @@
     "clean": "turbo run clean",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check:env-examples": "bash scripts/check-env-examples.sh"
+    "check:env-examples": "bash scripts/check-env-examples.sh",
+    "ab:triage": "tsx scripts/ab-triage.mts"
+  },
+  "dependencies": {
+    "@savemytokens/core": "workspace:*",
+    "@savemytokens/types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
     "prettier": "^3.5.3",
+    "tsx": "^4.19.4",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   }
