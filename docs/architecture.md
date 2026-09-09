@@ -50,7 +50,7 @@ Agent / IDE / Browser
 
 | Surface | Host                        | Notes                                         |
 | ------- | --------------------------- | --------------------------------------------- |
-| Web     | Vercel project → `apps/web` | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`                   |
+| Web     | Vercel project → `apps/web` | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`            |
 | API     | Vercel project → `apps/api` | `api/index.ts` + `CORS_ORIGINS` + Upstash     |
 | MCP     | Local stdio                 | Same engine; zero-install try via hosted REST |
 
@@ -74,8 +74,8 @@ Priority: `ERROR_UNREACHABLE` → `WAF_BLOCKED` → `USE_LLMS_TXT` → `HEADLESS
 
 ## Apps (entry points)
 
-| App | Package          | Transport         | Notes                                   |
-| --- | ---------------- | ----------------- | --------------------------------------- |
+| App | Package             | Transport         | Notes                                   |
+| --- | ------------------- | ----------------- | --------------------------------------- |
 | API | `@savemytokens/api` | HTTP (Hono)       | `GET /v1/triage?url=`, `GET /health`    |
 | MCP | `@savemytokens/mcp` | stdio MCP         | tool `triage_url` → JSON `TriageResult` |
 | Web | `@savemytokens/web` | Next.js + daisyUI | Corduroy visualizer → REST              |

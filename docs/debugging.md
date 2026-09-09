@@ -22,28 +22,28 @@ Source maps are enabled in `tsconfig.base.json` (`sourceMap` + `declarationMap`)
 
 `.vscode/launch.json` already defines:
 
-| Config | Use |
-| ------ | --- |
-| **Debug API** | Best default — Hono on `:8787`, steps into `@savemytokens/core` |
-| **Debug core tests** | All `packages/core` unit tests under the debugger |
-| **Debug single core test file** | Focused file in the editor (e.g. `probe.test.ts`) then F5 |
-| **Attach Node** | Attach to a process started with `--inspect` / `--inspect-brk` on `9229` |
-| **Debug Web (Next.js)** | Browser-side UI only (probes still run in the API) |
+| Config                          | Use                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| **Debug API**                   | Best default — Hono on `:8787`, steps into `@savemytokens/core`          |
+| **Debug core tests**            | All `packages/core` unit tests under the debugger                        |
+| **Debug single core test file** | Focused file in the editor (e.g. `probe.test.ts`) then F5                |
+| **Attach Node**                 | Attach to a process started with `--inspect` / `--inspect-brk` on `9229` |
+| **Debug Web (Next.js)**         | Browser-side UI only (probes still run in the API)                       |
 
 ### 2. Set breakpoints
 
 Useful stop points for a full triage:
 
-| Order | File | Why |
-| ----- | ---- | --- |
-| 1 | `apps/api/src/app.ts` — `GET /v1/triage` handler | Request entry, query parsing, rate limit / cache |
-| 2 | `packages/core/src/probe.ts` — `probeUrl` | Decision pipeline orchestration |
-| 3 | `packages/core/src/ssrf.ts` — `validateProbeTarget` | Protocol / private-IP rejection |
-| 4 | `packages/core/src/fetch-origin.ts` — `fetchOrigin` | Origin GET + body cap |
-| 5 | `packages/core/src/llms-txt.ts` — `discoverLlmsTxt` | `/llms.txt` discovery |
-| 6 | `packages/core/src/shields.ts` — `inspectShields` | WAF heuristics |
-| 7 | `packages/core/src/spa.ts` — `looksLikeSpaShell` | Empty hydration shell |
-| 8 | `packages/core/src/probe.ts` — `synthesizeAction` | Final `TriageAction` pick |
+| Order | File                                                | Why                                              |
+| ----- | --------------------------------------------------- | ------------------------------------------------ |
+| 1     | `apps/api/src/app.ts` — `GET /v1/triage` handler    | Request entry, query parsing, rate limit / cache |
+| 2     | `packages/core/src/probe.ts` — `probeUrl`           | Decision pipeline orchestration                  |
+| 3     | `packages/core/src/ssrf.ts` — `validateProbeTarget` | Protocol / private-IP rejection                  |
+| 4     | `packages/core/src/fetch-origin.ts` — `fetchOrigin` | Origin GET + body cap                            |
+| 5     | `packages/core/src/llms-txt.ts` — `discoverLlmsTxt` | `/llms.txt` discovery                            |
+| 6     | `packages/core/src/shields.ts` — `inspectShields`   | WAF heuristics                                   |
+| 7     | `packages/core/src/spa.ts` — `looksLikeSpaShell`    | Empty hydration shell                            |
+| 8     | `packages/core/src/probe.ts` — `synthesizeAction`   | Final `TriageAction` pick                        |
 
 ### 3. Start debugging
 

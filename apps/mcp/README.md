@@ -78,7 +78,7 @@ The handler calls `probeUrl()` from `@savemytokens/core` directly — same synth
 ### Verify
 
 1. Confirm the client lists a `triage_url` tool under the `savemytokens` server.
-2. Prompt something like: *Before fetching https://example.com, call triage_url and follow the recommended action.*
+2. Prompt something like: _Before fetching https://example.com, call triage_url and follow the recommended action._
 3. You should get JSON with `action`, `tokenEstimate`, `latencyMs`, etc.
 
 ## Limits
@@ -97,14 +97,14 @@ curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"
 
 ## Troubleshooting
 
-| Symptom | Likely fix |
-| ------- | ---------- |
-| Tool missing after config change | Restart the client; confirm JSON is valid |
-| `Cannot find module` / import errors | Re-run `pnpm install` and `pnpm --filter @savemytokens/mcp build` |
-| Stale behavior after code changes | Rebuild `dist/` — clients run the compiled entry, not `src/` |
-| Wrong path | `args` must be an **absolute** path to `apps/mcp/dist/index.js` |
-| Node version errors | Use Node 20+ (`node -v`) |
-| Probe returns `ERROR_UNREACHABLE` for local URLs | Expected — SSRF guard blocks private targets |
+| Symptom                                          | Likely fix                                                        |
+| ------------------------------------------------ | ----------------------------------------------------------------- |
+| Tool missing after config change                 | Restart the client; confirm JSON is valid                         |
+| `Cannot find module` / import errors             | Re-run `pnpm install` and `pnpm --filter @savemytokens/mcp build` |
+| Stale behavior after code changes                | Rebuild `dist/` — clients run the compiled entry, not `src/`      |
+| Wrong path                                       | `args` must be an **absolute** path to `apps/mcp/dist/index.js`   |
+| Node version errors                              | Use Node 20+ (`node -v`)                                          |
+| Probe returns `ERROR_UNREACHABLE` for local URLs | Expected — SSRF guard blocks private targets                      |
 
 ## Run manually (optional)
 

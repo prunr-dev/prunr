@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 import { probeUrl } from '@savemytokens/core';
 import {
   PROBLEM_JSON_MEDIA_TYPE,
@@ -22,6 +23,8 @@ import { checkTriageRateLimit, clientIpFromHeaders } from './rate-limit.js';
 export function createApp(): Hono {
   const app = new Hono();
 
+  // vercel speed-analytics
+  injectSpeedInsights();
   app.use(
     '*',
     cors({

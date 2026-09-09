@@ -70,10 +70,7 @@ function deriveSavingsPercent(
   return Math.min(MAX_SAVINGS_PERCENT, Math.max(0, raw));
 }
 
-function estimate(
-  baselineTokens: number,
-  actionTokens: number,
-): TokenEstimate {
+function estimate(baselineTokens: number, actionTokens: number): TokenEstimate {
   return {
     baselineTokens,
     actionTokens,

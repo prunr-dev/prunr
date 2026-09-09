@@ -16,8 +16,8 @@ Operators and agent authors need a quick UI to see what savemytokens would recom
 | `src/components/TriageForm.tsx` | Form, presets, `?url=` sync, result panel       |
 | `src/lib/api.ts`                | Fetch helper + env-based API base URL           |
 | `src/lib/presets.ts`            | Demo URL chips (labels may drift vs live sites) |
-| `next.config.ts`                | `transpilePackages: ['@savemytokens/types']`       |
-| `.env.example`                  | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`                     |
+| `next.config.ts`                | `transpilePackages: ['@savemytokens/types']`    |
+| `.env.example`                  | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL`              |
 
 ## Theme
 

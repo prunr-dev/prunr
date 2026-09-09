@@ -95,9 +95,9 @@ Visualizer: [savemytokens.dev](https://savemytokens.dev) (or `pnpm --filter @sav
 
 Two projects from the same repo:
 
-| Project | Root Directory | Key env                                                             |
-| ------- | -------------- | ------------------------------------------------------------------- |
-| Web     | `apps/web`     | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL=https://api.savemytokens.dev`                   |
+| Project | Root Directory | Key env                                                                    |
+| ------- | -------------- | -------------------------------------------------------------------------- |
+| Web     | `apps/web`     | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL=https://api.savemytokens.dev`            |
 | API     | `apps/api`     | `CORS_ORIGINS=https://savemytokens.dev,...` · Upstash Redis REST URL/token |
 
 Enable “include files outside root directory” so workspace packages resolve. See [`apps/api/README.md`](apps/api/README.md) and [`apps/web/README.md`](apps/web/README.md).

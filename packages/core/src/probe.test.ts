@@ -243,7 +243,9 @@ describe('probeUrl', () => {
 
     assert.equal(result.action, 'FETCH_RAW');
     assert.equal(result.tokenEstimate.method, 'byte_heuristic');
-    assert.ok(result.tokenEstimate.baselineTokens > result.tokenEstimate.actionTokens);
+    assert.ok(
+      result.tokenEstimate.baselineTokens > result.tokenEstimate.actionTokens,
+    );
     assert.ok(result.tokenEstimate.savingsPercent > 0);
     assert.ok(result.latencyMs >= 0);
   });

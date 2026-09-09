@@ -10,16 +10,16 @@ Triage logic must be identical whether the caller is the REST API or the MCP ser
 
 ## Files
 
-| File                  | Purpose                                                       |
-| --------------------- | ------------------------------------------------------------- |
-| `src/ssrf.ts`         | URL/protocol sanitation, DNS lookup, private-IP (SSRF) guards |
-| `src/fetch-origin.ts` | Capped GET helper (4KB body snippet, shared AbortSignal)      |
-| `src/llms-txt.ts`     | Discover `/llms.txt` and `/.well-known/llms.txt`              |
-| `src/shields.ts`      | Challenge-grade Cloudflare / Turnstile / DataDome heuristics (CDN-only ≠ WAF) |
-| `src/spa.ts`          | Empty SPA-shell heuristic for `HEADLESS_REQUIRED`             |
-| `src/token-estimate.ts` | Byte-heuristic `tokenEstimate` (baseline / action / %)      |
-| `src/probe.ts`        | Orchestrates Steps A–D and returns `TriageResult`             |
-| `src/index.ts`        | Public barrel (`probeUrl` and related helpers)                |
+| File                    | Purpose                                                                       |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `src/ssrf.ts`           | URL/protocol sanitation, DNS lookup, private-IP (SSRF) guards                 |
+| `src/fetch-origin.ts`   | Capped GET helper (4KB body snippet, shared AbortSignal)                      |
+| `src/llms-txt.ts`       | Discover `/llms.txt` and `/.well-known/llms.txt`                              |
+| `src/shields.ts`        | Challenge-grade Cloudflare / Turnstile / DataDome heuristics (CDN-only ≠ WAF) |
+| `src/spa.ts`            | Empty SPA-shell heuristic for `HEADLESS_REQUIRED`                             |
+| `src/token-estimate.ts` | Byte-heuristic `tokenEstimate` (baseline / action / %)                        |
+| `src/probe.ts`          | Orchestrates Steps A–D and returns `TriageResult`                             |
+| `src/index.ts`          | Public barrel (`probeUrl` and related helpers)                                |
 
 ## Pipeline
 

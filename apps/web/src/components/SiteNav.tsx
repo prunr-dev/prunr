@@ -25,7 +25,10 @@ export function SiteNav() {
         if (!el) {
           return { href: link.href, top: Number.POSITIVE_INFINITY };
         }
-        return { href: link.href, top: Math.abs(el.getBoundingClientRect().top) };
+        return {
+          href: link.href,
+          top: Math.abs(el.getBoundingClientRect().top),
+        };
       });
 
       sections.sort((a, b) => a.top - b.top);

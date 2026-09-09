@@ -10,8 +10,8 @@ savemytokens answers one question for AI agents:
 
 Think of a restaurant kitchen:
 
-| Piece                  | Role                                                                         |
-| ---------------------- | ---------------------------------------------------------------------------- |
+| Piece                     | Role                                                                         |
+| ------------------------- | ---------------------------------------------------------------------------- |
 | **`@savemytokens/core`**  | The chef — does the actual tasting/inspecting                                |
 | **`@savemytokens/types`** | The menu — shared words everyone agrees on (`TriageResult`, actions, errors) |
 | **`@savemytokens/api`**   | The counter — HTTP so browsers and curl can order                            |

@@ -39,6 +39,6 @@ export function isAllowedCorsOrigin(origin: string): boolean {
 export function hasUpstashConfig(): boolean {
   return Boolean(
     process.env['UPSTASH_REDIS_REST_URL']?.trim() &&
-      process.env['UPSTASH_REDIS_REST_TOKEN']?.trim(),
+    process.env['UPSTASH_REDIS_REST_TOKEN']?.trim(),
   );
 }

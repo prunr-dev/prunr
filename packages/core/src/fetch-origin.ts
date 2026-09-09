@@ -2,7 +2,8 @@
 export const BODY_SNIPPET_MAX_BYTES = 4096 as const;
 
 /** User-Agent sent on all outbound probe requests. */
-export const SAVEMYTOKENS_USER_AGENT = 'savemytokens/0.1 (+https://savemytokens.dev)' as const;
+export const SAVEMYTOKENS_USER_AGENT =
+  'savemytokens/0.1 (+https://savemytokens.dev)' as const;
 
 export type OriginFetchSuccess = {
   ok: true;
