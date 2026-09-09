@@ -30,7 +30,6 @@
     "@savemytokens/types": "workspace:*",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.35.0",
-    "@vercel/speed-insights": "^2.0.0",
     "hono": "^4.7.10"
   },
   "devDependencies": {
@@ -39,6 +38,6 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   }
 }

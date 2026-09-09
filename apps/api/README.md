@@ -52,12 +52,14 @@ Successful probes may include `X-Savemytokens-Cache: HIT|MISS`. Over limit retur
 Create a Vercel project with **Framework Preset: Hono** (native backend — `export default app` from `src/app.ts`):
 
 - **Root Directory:** `apps/api`
-- **Include files outside root:** on (monorepo packages)
-- **Install:** `cd ../.. && pnpm install`
-- **Build:** `cd ../.. && pnpm --filter @savemytokens/types build && pnpm --filter @savemytokens/core build`
+- **Include files outside root directory in Build Step:** **on** (required — workspace packages live in `packages/*`)
+- Install / Build are set in [`vercel.json`](./vercel.json) (`pnpm install` + build `types` then `core` from the monorepo root)
 - Env: `CORS_ORIGINS`, Upstash URL/token (skip `PORT`)
+- Node: pinned to `20.x` via `engines` (avoid `>=20`, which Vercel treats as auto-upgrade)
 
 Do **not** use the old `api/` + `hono/vercel` `handle()` + catch-all rewrite pattern — it hangs under Vercel’s Hono backend runtime.
+
+If the build logs `No projects matched the filters`, the monorepo root was not on the build path — confirm “include files outside root” and that `vercel.json` `buildCommand` runs from `../..`.
 
 Live example host: `https://prunr-api.vercel.app` (custom `api.savemytokens.dev` later).
 
