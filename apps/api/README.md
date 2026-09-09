@@ -1,6 +1,6 @@
-# `@prunr-dev/api`
+# `@savemytokens/api`
 
-Public **REST microservice** for Prunr triage. Thin Hono layer over `@prunr-dev/core` — no probe logic lives here.
+Public **REST microservice** for savemytokens triage. Thin Hono layer over `@savemytokens/core` — no probe logic lives here.
 
 ## Why this app exists
 
@@ -28,7 +28,7 @@ Agents and the web UI need a simple HTTP surface. This app validates input, appl
 Example:
 
 ```bash
-pnpm --filter @prunr-dev/api dev
+pnpm --filter @savemytokens/api dev
 curl "http://localhost:8787/v1/triage?url=https://example.com"
 ```
 
@@ -39,13 +39,13 @@ Default port: **8787** (override with `PORT`).
 | Variable | Purpose |
 | --- | --- |
 | `PORT` | Local listen port (default `8787`) — not used on Vercel |
-| `CORS_ORIGINS` | Comma-separated allowed origins (defaults include localhost + `https://prunr.dev`) |
+| `CORS_ORIGINS` | Comma-separated allowed origins (defaults include localhost + `https://savemytokens.dev`) |
 | `UPSTASH_REDIS_REST_URL` | Optional Redis for cache + rate limit |
 | `UPSTASH_REDIS_REST_TOKEN` | Optional Redis token |
 
 Without Upstash credentials, rate limit and cache are skipped (fail-open) so local demos keep working.
 
-Successful probes may include `X-Prunr-Cache: HIT|MISS`. Over limit returns `429` problem JSON.
+Successful probes may include `X-Savemytokens-Cache: HIT|MISS`. Over limit returns `429` problem JSON.
 
 ## Deploy (Vercel)
 
@@ -54,19 +54,19 @@ Create a Vercel project with **Framework Preset: Hono** (native backend — `exp
 - **Root Directory:** `apps/api`
 - **Include files outside root:** on (monorepo packages)
 - **Install:** `cd ../.. && pnpm install`
-- **Build:** `cd ../.. && pnpm --filter @prunr-dev/types build && pnpm --filter @prunr-dev/core build`
+- **Build:** `cd ../.. && pnpm --filter @savemytokens/types build && pnpm --filter @savemytokens/core build`
 - Env: `CORS_ORIGINS`, Upstash URL/token (skip `PORT`)
 
 Do **not** use the old `api/` + `hono/vercel` `handle()` + catch-all rewrite pattern — it hangs under Vercel’s Hono backend runtime.
 
-Live example host: `https://prunr-api.vercel.app` (custom `api.prunr.dev` later).
+Live example host: `https://prunr-api.vercel.app` (custom `api.savemytokens.dev` later).
 
 ## Scripts
 
 ```bash
-pnpm --filter @prunr-dev/api dev
-pnpm --filter @prunr-dev/api build
-pnpm --filter @prunr-dev/api start
+pnpm --filter @savemytokens/api dev
+pnpm --filter @savemytokens/api build
+pnpm --filter @savemytokens/api start
 ```
 
-Depends on `@prunr-dev/core` and `@prunr-dev/types` via `workspace:*`.
+Depends on `@savemytokens/core` and `@savemytokens/types` via `workspace:*`.

@@ -17,9 +17,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Prunr — pre-flight triage',
+  title: 'savemytokens — pre-flight triage',
   description:
-    'Diagnostic visualizer for Prunr: inspect how AI agents should fetch a URL before they crawl.',
+    'Diagnostic visualizer for savemytokens: inspect how AI agents should fetch a URL before they crawl.',
 };
 
 export default function RootLayout({

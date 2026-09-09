@@ -1,14 +1,14 @@
 /**
- * Client-side helpers for calling @prunr-dev/api.
- * The web app never imports @prunr-dev/core — probes run on the API.
+ * Client-side helpers for calling @savemytokens/api.
+ * The web app never imports @savemytokens/core — probes run on the API.
  */
 
-import type { ProblemDetails, TriageResult } from '@prunr-dev/types';
+import type { ProblemDetails, TriageResult } from '@savemytokens/types';
 
 /** Base URL for the REST microservice (no trailing slash). */
 export function getApiBaseUrl(): string {
   const raw =
-    process.env['NEXT_PUBLIC_PRUNR_API_URL'] ?? 'http://localhost:8787';
+    process.env['NEXT_PUBLIC_SAVEMYTOKENS_API_URL'] ?? 'http://localhost:8787';
   return raw.replace(/\/$/, '');
 }
 

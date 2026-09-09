@@ -19,7 +19,7 @@ export interface ProblemDetails {
   detail?: string;
   /** URI reference that identifies this specific occurrence. */
   instance?: string;
-  /** Prunr-specific machine-readable code (extension member). */
+  /** savemytokens-specific machine-readable code (extension member). */
   code?: ProbeErrorCode | string;
 }
 
@@ -60,11 +60,11 @@ export function createProblemDetails(
   return problem;
 }
 
-/** Common Prunr API problem factories. */
+/** Common savemytokens API problem factories. */
 export const Problems = {
   badRequest(detail: string, code?: ProbeErrorCode | string): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/bad-request',
+      type: 'https://savemytokens.dev/problems/bad-request',
       title: 'Bad Request',
       status: 400,
       detail,
@@ -76,7 +76,7 @@ export const Problems = {
     detail = 'The provided URL is invalid or unsupported.',
   ): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/invalid-url',
+      type: 'https://savemytokens.dev/problems/invalid-url',
       title: 'Invalid URL',
       status: 400,
       detail,
@@ -88,7 +88,7 @@ export const Problems = {
     detail = 'The target URL resolves to a private or disallowed address.',
   ): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/ssrf-blocked',
+      type: 'https://savemytokens.dev/problems/ssrf-blocked',
       title: 'SSRF Blocked',
       status: 400,
       detail,
@@ -98,7 +98,7 @@ export const Problems = {
 
   unreachable(detail = 'The target URL could not be reached.'): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/unreachable',
+      type: 'https://savemytokens.dev/problems/unreachable',
       title: 'Unreachable',
       status: 502,
       detail,
@@ -108,7 +108,7 @@ export const Problems = {
 
   timeout(detail = 'The probe timed out.'): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/timeout',
+      type: 'https://savemytokens.dev/problems/timeout',
       title: 'Probe Timeout',
       status: 504,
       detail,
@@ -120,7 +120,7 @@ export const Problems = {
     detail = 'Rate limit exceeded. Try again shortly.',
   ): ProblemDetails {
     return createProblemDetails({
-      type: 'https://prunr.dev/problems/rate-limit',
+      type: 'https://savemytokens.dev/problems/rate-limit',
       title: 'Too Many Requests',
       status: 429,
       detail,

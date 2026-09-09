@@ -1,18 +1,18 @@
-# Debugging Prunr
+# Debugging savemytokens
 
-How to step through Prunr in the Cursor / VS Code debugger.
+How to step through savemytokens in the Cursor / VS Code debugger.
 
-Most of the interesting logic lives in `@prunr-dev/core` (`probeUrl`). The API and MCP apps are thin wrappers. Prefer debugging the **API** path — same engine as production, easy to trigger with `curl`.
+Most of the interesting logic lives in `@savemytokens/core` (`probeUrl`). The API and MCP apps are thin wrappers. Prefer debugging the **API** path — same engine as production, easy to trigger with `curl`.
 
 ## Prerequisites
 
 ```bash
 pnpm install
-pnpm --filter @prunr-dev/types build
-pnpm --filter @prunr-dev/core build
+pnpm --filter @savemytokens/types build
+pnpm --filter @savemytokens/core build
 ```
 
-`@prunr-dev/core` and `@prunr-dev/types` export from `dist/`. Rebuild them after editing those packages, or your breakpoints and runtime will disagree.
+`@savemytokens/core` and `@savemytokens/types` export from `dist/`. Rebuild them after editing those packages, or your breakpoints and runtime will disagree.
 
 Source maps are enabled in `tsconfig.base.json` (`sourceMap` + `declarationMap`), so the debugger can map `packages/core/dist/*.js` back to `packages/core/src/*.ts`.
 
@@ -24,7 +24,7 @@ Source maps are enabled in `tsconfig.base.json` (`sourceMap` + `declarationMap`)
 
 | Config | Use |
 | ------ | --- |
-| **Debug API** | Best default — Hono on `:8787`, steps into `@prunr-dev/core` |
+| **Debug API** | Best default — Hono on `:8787`, steps into `@savemytokens/core` |
 | **Debug core tests** | All `packages/core` unit tests under the debugger |
 | **Debug single core test file** | Focused file in the editor (e.g. `probe.test.ts`) then F5 |
 | **Attach Node** | Attach to a process started with `--inspect` / `--inspect-brk` on `9229` |
@@ -48,7 +48,7 @@ Useful stop points for a full triage:
 ### 3. Start debugging
 
 1. Run **Debug API** from the Run and Debug panel (or `F5` with that config selected).
-2. Wait for `@prunr-dev/api listening on http://localhost:8787`.
+2. Wait for `@savemytokens/api listening on http://localhost:8787`.
 3. In a separate terminal:
 
 ```bash
@@ -63,7 +63,7 @@ With the API under the debugger:
 
 ```bash
 cp apps/web/.env.example apps/web/.env.local   # if needed
-pnpm --filter @prunr-dev/web dev
+pnpm --filter @savemytokens/web dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000), submit a URL — the browser hits the same debug session on `:8787`.
@@ -100,13 +100,13 @@ Tests already inject fake `fetch` / DNS — no network required, and no 2s abort
 
 ```bash
 # CLI equivalent (no debugger)
-pnpm --filter @prunr-dev/core test
+pnpm --filter @savemytokens/core test
 ```
 
 ### Via a one-off script
 
 ```bash
-pnpm --filter @prunr-dev/core exec tsx --inspect-brk -e "
+pnpm --filter @savemytokens/core exec tsx --inspect-brk -e "
   import { probeUrl } from './src/index.ts';
   const r = await probeUrl('https://example.com');
   console.log(r);
@@ -141,7 +141,7 @@ Practical options:
 3. After build, launch with inspect and attach:
 
 ```bash
-pnpm --filter @prunr-dev/mcp build
+pnpm --filter @savemytokens/mcp build
 node --inspect-brk apps/mcp/dist/index.js
 ```
 
@@ -153,7 +153,7 @@ Breakpoints in `apps/mcp/src` map via source maps from `dist/`. Tool handling li
 
 The web app only fetches the API; it does not run probes. Use the built-in JavaScript debugger:
 
-1. Start `pnpm --filter @prunr-dev/web dev` (and the API separately, or under **Debug API**).
+1. Start `pnpm --filter @savemytokens/web dev` (and the API separately, or under **Debug API**).
 2. Open the Command Palette → **Debug: JavaScript Debug Terminal**, or use a Next.js launch config.
 3. Set breakpoints in `apps/web/src/lib/api.ts` (client fetch) or Server Components as needed.
 
@@ -165,7 +165,7 @@ Example launch config:
   "type": "node",
   "request": "launch",
   "runtimeExecutable": "pnpm",
-  "runtimeArgs": ["--filter", "@prunr-dev/web", "dev"],
+  "runtimeArgs": ["--filter", "@savemytokens/web", "dev"],
   "cwd": "${workspaceFolder}",
   "console": "integratedTerminal",
   "serverReadyAction": {
@@ -185,10 +185,10 @@ For triage logic itself, stay on **Debug API** + core breakpoints.
 
 ```bash
 # API with inspector — then attach from Cursor on port 9229
-pnpm --filter @prunr-dev/api exec node --import tsx --inspect-brk src/index.ts
+pnpm --filter @savemytokens/api exec node --import tsx --inspect-brk src/index.ts
 
 # Or after build
-pnpm --filter @prunr-dev/api build
+pnpm --filter @savemytokens/api build
 node --inspect-brk apps/api/dist/index.js
 ```
 

@@ -1,4 +1,4 @@
-import type { ShieldTelemetry, ShieldVendor } from '@prunr-dev/types';
+import type { ShieldTelemetry, ShieldVendor } from '@savemytokens/types';
 
 /**
  * Empty shield telemetry when no origin response was available.

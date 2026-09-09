@@ -1,6 +1,6 @@
-# Prunr, explained simply (ELI5)
+# savemytokens, explained simply (ELI5)
 
-Prunr answers one question for AI agents:
+savemytokens answers one question for AI agents:
 
 > **Before I fetch this URL the hard way, what’s the smartest cheap way to get the content?**
 
@@ -12,11 +12,11 @@ Think of a restaurant kitchen:
 
 | Piece                  | Role                                                                         |
 | ---------------------- | ---------------------------------------------------------------------------- |
-| **`@prunr-dev/core`**  | The chef — does the actual tasting/inspecting                                |
-| **`@prunr-dev/types`** | The menu — shared words everyone agrees on (`TriageResult`, actions, errors) |
-| **`@prunr-dev/api`**   | The counter — HTTP so browsers and curl can order                            |
-| **`@prunr-dev/web`**   | The display board — pretty UI to try it                                      |
-| **`@prunr-dev/mcp`**   | A private waiter for Cursor/Claude — same kitchen, different door            |
+| **`@savemytokens/core`**  | The chef — does the actual tasting/inspecting                                |
+| **`@savemytokens/types`** | The menu — shared words everyone agrees on (`TriageResult`, actions, errors) |
+| **`@savemytokens/api`**   | The counter — HTTP so browsers and curl can order                            |
+| **`@savemytokens/web`**   | The display board — pretty UI to try it                                      |
+| **`@savemytokens/mcp`**   | A private waiter for Cursor/Claude — same kitchen, different door            |
 
 Only the chef (`core`) decides. API / web / MCP just take orders and show the answer.
 
@@ -61,9 +61,9 @@ SSRF guard = “don’t let strangers make us probe your home router.” If DNS 
 
 Roughly:
 
-1. **CORS** — browsers on allowed sites (localhost / prunr.dev) can call it
+1. **CORS** — browsers on allowed sites (localhost / savemytokens.dev) can call it
 2. **Rate limit** (if Upstash Redis is configured) — ~30 requests/IP/minute; over = `429`
-3. **Cache** (same Redis) — same URL within ~60s → reuse last answer (`X-Prunr-Cache: HIT`)
+3. **Cache** (same Redis) — same URL within ~60s → reuse last answer (`X-Savemytokens-Cache: HIT`)
 4. Call `probeUrl()` in core
 5. Return JSON
    - Normal decisions → **200** + `TriageResult`
@@ -81,7 +81,7 @@ There’s also a **Vercel** entry so this can run in the cloud, not only on your
 ## How the web UI works
 
 1. You type (or click a preset) URL
-2. Browser calls the API (`NEXT_PUBLIC_PRUNR_API_URL`)
+2. Browser calls the API (`NEXT_PUBLIC_SAVEMYTOKENS_API_URL`)
 3. Shows the action, reason, badges, shields, etc.
 
 Skin: **daisyUI** + the **Corduroy** color palette. Motion uses soft “rise” / pulse animations.  
@@ -109,7 +109,7 @@ Cursor can call tool `triage_url` over stdio. Same `probeUrl()` as the API. No b
 
 ### Not done yet (backlog)
 
-- Deploying to prunr.dev / api.prunr.dev (Vercel project config)
+- Deploying to savemytokens.dev / api.savemytokens.dev (Vercel project config)
 - OpenAPI + Scalar
 - API keys / billing
 - Publishing packages to npm

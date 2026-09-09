@@ -1,8 +1,8 @@
 {
-  "name": "@prunr-dev/types",
+  "name": "@savemytokens/types",
   "version": "0.0.0",
   "private": true,
-  "description": "Universal TypeScript contracts for Prunr triage results and RFC 7807 errors",
+  "description": "Universal TypeScript contracts for savemytokens triage results and RFC 7807 errors",
   "type": "module",
   "exports": {
     ".": {

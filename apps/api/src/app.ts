@@ -1,19 +1,19 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { probeUrl } from '@prunr-dev/core';
+import { probeUrl } from '@savemytokens/core';
 import {
   PROBLEM_JSON_MEDIA_TYPE,
   Problems,
   type ProblemDetails,
   type TriageResult,
-} from '@prunr-dev/types';
+} from '@savemytokens/types';
 
 import { getCachedTriage, setCachedTriage } from './cache.js';
 import { API_VERSION, isAllowedCorsOrigin } from './env.js';
 import { checkTriageRateLimit, clientIpFromHeaders } from './rate-limit.js';
 
 /**
- * Hono application exposing Prunr triage over HTTP.
+ * Hono application exposing savemytokens triage over HTTP.
  *
  * Routes:
  * - `GET /health` — liveness + version
@@ -34,7 +34,7 @@ export function createApp(): Hono {
   app.get('/health', (c) =>
     c.json({
       ok: true as const,
-      service: 'prunr-api',
+      service: 'savemytokens-api',
       version: API_VERSION,
     }),
   );
@@ -42,7 +42,7 @@ export function createApp(): Hono {
   app.get('/', (c) =>
     c.json({
       ok: true as const,
-      service: 'prunr-api',
+      service: 'savemytokens-api',
       version: API_VERSION,
       endpoints: ['/health', '/v1/triage?url='],
     }),
@@ -71,7 +71,7 @@ export function createApp(): Hono {
     const cached = await getCachedTriage(target);
     if (cached) {
       return c.json(cached, 200, {
-        'X-Prunr-Cache': 'HIT',
+        'X-Savemytokens-Cache': 'HIT',
       });
     }
 
@@ -98,7 +98,7 @@ export function createApp(): Hono {
     await setCachedTriage(target, result);
 
     return c.json(result, 200, {
-      'X-Prunr-Cache': 'MISS',
+      'X-Savemytokens-Cache': 'MISS',
     });
   });
 

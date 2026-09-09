@@ -1,5 +1,5 @@
 /**
- * @prunr-dev/types — shared contracts for triage results and API errors.
+ * @savemytokens/types — shared contracts for triage results and API errors.
  */
 
 export type {

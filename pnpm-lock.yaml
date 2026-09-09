@@ -26,10 +26,10 @@ importers:
       '@hono/node-server':
         specifier: ^1.14.3
         version: 1.19.17(hono@4.13.7)
-      '@prunr-dev/core':
+      '@savemytokens/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@prunr-dev/types':
+      '@savemytokens/types':
         specifier: workspace:*
         version: link:../../packages/types
       '@upstash/ratelimit':
@@ -57,10 +57,10 @@ importers:
       '@modelcontextprotocol/server':
         specifier: ^2.0.0
         version: 2.0.0
-      '@prunr-dev/core':
+      '@savemytokens/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@prunr-dev/types':
+      '@savemytokens/types':
         specifier: workspace:*
         version: link:../../packages/types
       zod:
@@ -79,7 +79,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@prunr-dev/types':
+      '@savemytokens/types':
         specifier: workspace:*
         version: link:../../packages/types
       next:
@@ -116,7 +116,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@prunr-dev/types':
+      '@savemytokens/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:

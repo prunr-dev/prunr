@@ -2,7 +2,7 @@
 export const BODY_SNIPPET_MAX_BYTES = 4096 as const;
 
 /** User-Agent sent on all outbound probe requests. */
-export const PRUNR_USER_AGENT = 'Prunr/0.1 (+https://prunr.dev)' as const;
+export const SAVEMYTOKENS_USER_AGENT = 'savemytokens/0.1 (+https://savemytokens.dev)' as const;
 
 export type OriginFetchSuccess = {
   ok: true;
@@ -62,7 +62,7 @@ export async function fetchOrigin(
       signal,
       headers: {
         Accept: 'text/html,text/plain,text/markdown,*/*;q=0.8',
-        'User-Agent': PRUNR_USER_AGENT,
+        'User-Agent': SAVEMYTOKENS_USER_AGENT,
       },
     });
   } catch (err) {

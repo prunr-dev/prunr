@@ -3,7 +3,7 @@ import type {
   ShieldTelemetry,
   TriageAction,
   TriageResult,
-} from '@prunr-dev/types';
+} from '@savemytokens/types';
 
 import {
   fetchOrigin,

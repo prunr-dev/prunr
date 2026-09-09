@@ -1,8 +1,8 @@
 {
-  "name": "@prunr-dev/api",
+  "name": "@savemytokens/api",
   "version": "0.0.0",
   "private": true,
-  "description": "Prunr REST microservice — GET /v1/triage pre-flight triage",
+  "description": "savemytokens REST microservice — GET /v1/triage pre-flight triage",
   "type": "module",
   "exports": {
     ".": {
@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.14.3",
-    "@prunr-dev/core": "workspace:*",
-    "@prunr-dev/types": "workspace:*",
+    "@savemytokens/core": "workspace:*",
+    "@savemytokens/types": "workspace:*",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.35.0",
     "hono": "^4.7.10"

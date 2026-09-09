@@ -1,4 +1,4 @@
-import type { TriageAction } from '@prunr-dev/types';
+import type { TriageAction } from '@savemytokens/types';
 
 /**
  * Curated demo targets for the visualizer.

@@ -1,11 +1,11 @@
 {
-  "name": "@prunr-dev/mcp",
+  "name": "@savemytokens/mcp",
   "version": "0.0.0",
   "private": true,
-  "description": "Prunr Model Context Protocol server — triage_url tool for IDEs",
+  "description": "savemytokens Model Context Protocol server — triage_url tool for IDEs",
   "type": "module",
   "bin": {
-    "prunr-mcp": "./dist/index.js"
+    "savemytokens-mcp": "./dist/index.js"
   },
   "exports": {
     ".": {
@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0",
-    "@prunr-dev/core": "workspace:*",
-    "@prunr-dev/types": "workspace:*",
+    "@savemytokens/core": "workspace:*",
+    "@savemytokens/types": "workspace:*",
     "zod": "^4.5.4"
   },
   "devDependencies": {

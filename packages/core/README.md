@@ -1,6 +1,6 @@
-# `@prunr-dev/core`
+# `@savemytokens/core`
 
-Pure TypeScript **probe engine** for Prunr. This package decides which `TriageAction` to recommend for a URL.
+Pure TypeScript **probe engine** for savemytokens. This package decides which `TriageAction` to recommend for a URL.
 
 **Framework-free by design:** no Hono, Next.js, or MCP SDK. Apps call `probeUrl()` and map the result to their transport.
 
@@ -46,7 +46,7 @@ CDN-only Cloudflare markers (`cf-ray`, `server: cloudflare`, `__cf_bm`) are reco
 ## Probe behavior
 
 - **Timeout:** all outbound work shares `AbortSignal.timeout(2000)`.
-- **User-Agent:** `Prunr/0.1 (+https://prunr.dev)`.
+- **User-Agent:** `savemytokens/0.1 (+https://savemytokens.dev)`.
 - **Body cap:** first ~4KB retained for shield / SPA sniffing (`byteLength` recorded).
 - **SSRF:** fail closed on DNS errors; reject loopback, RFC1918, link-local, ULA, and metadata IPs (including IPv4-mapped).
 - **llms.txt:** prefers `/llms.txt` over `/.well-known/llms.txt` when both return text `200`s.
@@ -59,7 +59,7 @@ Phase 2 live probes are implemented in this package. REST / MCP / web remain thi
 ## Usage
 
 ```ts
-import { probeUrl } from '@prunr-dev/core';
+import { probeUrl } from '@savemytokens/core';
 
 const result = await probeUrl('https://example.com/docs');
 // result.action → TriageAction
@@ -68,9 +68,9 @@ const result = await probeUrl('https://example.com/docs');
 ## Scripts
 
 ```bash
-pnpm --filter @prunr-dev/core build
-pnpm --filter @prunr-dev/core typecheck
-pnpm --filter @prunr-dev/core test
+pnpm --filter @savemytokens/core build
+pnpm --filter @savemytokens/core typecheck
+pnpm --filter @savemytokens/core test
 ```
 
-Depends on `@prunr-dev/types` via `workspace:*`.
+Depends on `@savemytokens/types` via `workspace:*`.

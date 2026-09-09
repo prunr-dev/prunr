@@ -1,16 +1,16 @@
 import { McpServer } from '@modelcontextprotocol/server';
-import { probeUrl } from '@prunr-dev/core';
+import { probeUrl } from '@savemytokens/core';
 import * as z from 'zod/v4';
 
 /**
- * Builds the Prunr MCP server instance with the `triage_url` tool.
+ * Builds the savemytokens MCP server instance with the `triage_url` tool.
  *
  * The tool wraps {@link probeUrl} and returns a JSON-serialized `TriageResult`
  * so Cursor / Claude Desktop agents can decide how to fetch a page.
  */
 export function createMcpServer(): McpServer {
   const server = new McpServer({
-    name: 'prunr',
+    name: 'savemytokens',
     version: '0.0.0',
   });
 

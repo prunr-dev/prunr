@@ -1,8 +1,8 @@
-# Prunr
+# savemytokens
 
 Ultra-fast pre-flight triage for AI web agents.
 
-Before an agent fetches a URL, Prunr inspects it in under ~100ms and recommends the cheapest, fastest way to get the content:
+Before an agent fetches a URL, savemytokens inspects it in under ~100ms and recommends the cheapest, fastest way to get the content:
 
 | Action              | Meaning                                                |
 | ------------------- | ------------------------------------------------------ |
@@ -12,21 +12,21 @@ Before an agent fetches a URL, Prunr inspects it in under ~100ms and recommends 
 | `WAF_BLOCKED`       | Edge bot shield detected — abort or route to unblocker |
 | `ERROR_UNREACHABLE` | Timeout, DNS failure, SSRF block, or network error     |
 
-**Org:** [`prunr-dev`](https://github.com/prunr-dev) · **Repo:** [prunr-dev/prunr](https://github.com/prunr-dev/prunr) · **Site:** [prunr.dev](https://prunr.dev)
+**Org:** [`savemytokens`](https://github.com/savemytokens) · **Repo:** [savemytokens/savemytokens](https://github.com/savemytokens/savemytokens) · **Site:** [savemytokens.dev](https://savemytokens.dev)
 
 ## Monorepo layout
 
 This repo is a **pnpm + Turborepo** workspace. Shared logic lives in `packages/`; runnable entry points live in `apps/`. Packages link locally via `workspace:*` (no npm publish required for development).
 
 ```text
-prunr/
+savemytokens/
 ├── packages/
-│   ├── types/    @prunr-dev/types   — shared TypeScript contracts
-│   └── core/     @prunr-dev/core    — pure probe engine (no HTTP frameworks)
+│   ├── types/    @savemytokens/types   — shared TypeScript contracts
+│   └── core/     @savemytokens/core    — pure probe engine (no HTTP frameworks)
 ├── apps/
-│   ├── api/      @prunr-dev/api     — REST microservice (Hono)
-│   ├── mcp/      @prunr-dev/mcp     — Model Context Protocol server
-│   └── web/      @prunr-dev/web     — Next.js visualizer (prunr.dev)
+│   ├── api/      @savemytokens/api     — REST microservice (Hono)
+│   ├── mcp/      @savemytokens/mcp     — Model Context Protocol server
+│   └── web/      @savemytokens/web     — Next.js visualizer (savemytokens.dev)
 ├── docs/         High-level architecture notes
 ├── package.json  Root scripts (turbo)
 ├── pnpm-workspace.yaml
@@ -62,8 +62,8 @@ pnpm dev          # run all persistent dev tasks
 Filter a single package:
 
 ```bash
-pnpm --filter @prunr-dev/types build
-pnpm --filter @prunr-dev/core typecheck
+pnpm --filter @savemytokens/types build
+pnpm --filter @savemytokens/core typecheck
 ```
 
 ## Package docs
@@ -76,20 +76,20 @@ pnpm --filter @prunr-dev/core typecheck
 
 ## Status
 
-**Phase 3 public MVP:** live probes in `@prunr-dev/core`, Corduroy/daisyUI visualizer in `@prunr-dev/web`, and a hostable Hono API with env-driven CORS plus optional Upstash rate limit (30/min) and 60s response cache.
+**Phase 3 public MVP:** live probes in `@savemytokens/core`, Corduroy/daisyUI visualizer in `@savemytokens/web`, and a hostable Hono API with env-driven CORS plus optional Upstash rate limit (30/min) and 60s response cache.
 
 ### Try it
 
 ```bash
 # Hosted (once deployed)
-curl "https://api.prunr.dev/v1/triage?url=https://example.com"
+curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"
 
 # Local
-pnpm --filter @prunr-dev/api dev
+pnpm --filter @savemytokens/api dev
 curl "http://localhost:8787/v1/triage?url=https://example.com"
 ```
 
-Visualizer: [prunr.dev](https://prunr.dev) (or `pnpm --filter @prunr-dev/web dev` against a local API).
+Visualizer: [savemytokens.dev](https://savemytokens.dev) (or `pnpm --filter @savemytokens/web dev` against a local API).
 
 ### Deploy (Vercel monorepo)
 
@@ -97,8 +97,8 @@ Two projects from the same repo:
 
 | Project | Root Directory | Key env                                                             |
 | ------- | -------------- | ------------------------------------------------------------------- |
-| Web     | `apps/web`     | `NEXT_PUBLIC_PRUNR_API_URL=https://api.prunr.dev`                   |
-| API     | `apps/api`     | `CORS_ORIGINS=https://prunr.dev,...` · Upstash Redis REST URL/token |
+| Web     | `apps/web`     | `NEXT_PUBLIC_SAVEMYTOKENS_API_URL=https://api.savemytokens.dev`                   |
+| API     | `apps/api`     | `CORS_ORIGINS=https://savemytokens.dev,...` · Upstash Redis REST URL/token |
 
 Enable “include files outside root directory” so workspace packages resolve. See [`apps/api/README.md`](apps/api/README.md) and [`apps/web/README.md`](apps/web/README.md).
 

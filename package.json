@@ -1,13 +1,13 @@
 {
-  "name": "prunr",
+  "name": "savemytokens",
   "version": "0.0.0",
   "private": true,
   "description": "Ultra-fast pre-flight triage API and MCP server for AI web agents",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prunr-dev/prunr.git"
+    "url": "https://github.com/savemytokens/savemytokens.git"
   },
-  "homepage": "https://prunr.dev",
+  "homepage": "https://savemytokens.dev",
   "license": "MIT",
   "packageManager": "pnpm@10.26.0",
   "engines": {

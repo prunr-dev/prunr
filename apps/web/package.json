@@ -1,8 +1,8 @@
 {
-  "name": "@prunr-dev/web",
+  "name": "@savemytokens/web",
   "version": "0.0.0",
   "private": true,
-  "description": "Prunr diagnostic visualizer — Next.js + Tailwind (prunr.dev)",
+  "description": "savemytokens diagnostic visualizer — Next.js + Tailwind (savemytokens.dev)",
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
@@ -13,7 +13,7 @@
     "test": "echo \"no tests yet\""
   },
   "dependencies": {
-    "@prunr-dev/types": "workspace:*",
+    "@savemytokens/types": "workspace:*",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

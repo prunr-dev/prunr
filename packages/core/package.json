@@ -1,8 +1,8 @@
 {
-  "name": "@prunr-dev/core",
+  "name": "@savemytokens/core",
   "version": "0.0.0",
   "private": true,
-  "description": "Pure pre-flight triage probe engine for Prunr (SSRF, shields, llms.txt)",
+  "description": "Pure pre-flight triage probe engine for savemytokens (SSRF, shields, llms.txt)",
   "type": "module",
   "exports": {
     ".": {
@@ -23,7 +23,7 @@
     "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {
-    "@prunr-dev/types": "workspace:*"
+    "@savemytokens/types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",

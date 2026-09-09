@@ -20,7 +20,7 @@ function getRatelimit(): Ratelimit | null {
   ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
     limiter: Ratelimit.slidingWindow(LIMIT, WINDOW),
-    prefix: 'prunr:ratelimit',
+    prefix: 'savemytokens:ratelimit',
     analytics: false,
   });
   return ratelimit;
@@ -46,7 +46,7 @@ export async function checkTriageRateLimit(
     }
     return { ok: true, remaining: result.remaining };
   } catch (err) {
-    console.warn('[prunr-api] rate limit check failed (fail open)', err);
+    console.warn('[savemytokens-api] rate limit check failed (fail open)', err);
     return { ok: true, remaining: null };
   }
 }

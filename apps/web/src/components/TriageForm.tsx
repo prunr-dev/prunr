@@ -8,7 +8,7 @@ import {
   type FormEvent,
 } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import type { TriageAction, TriageResult } from '@prunr-dev/types';
+import type { TriageAction, TriageResult } from '@savemytokens/types';
 
 import { fetchTriage, getApiBaseUrl } from '@/lib/api';
 import { DEMO_PRESETS } from '@/lib/presets';

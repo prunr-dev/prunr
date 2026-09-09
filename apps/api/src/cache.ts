@@ -1,4 +1,4 @@
-import type { TriageResult } from '@prunr-dev/types';
+import type { TriageResult } from '@savemytokens/types';
 import { Redis } from '@upstash/redis';
 
 import { hasUpstashConfig } from './env.js';
@@ -6,7 +6,7 @@ import { hasUpstashConfig } from './env.js';
 /** Short TTL for public-demo triage responses (seconds). */
 export const TRIAGE_CACHE_TTL_SECONDS = 60 as const;
 
-const CACHE_PREFIX = 'prunr:triage:v1:' as const;
+const CACHE_PREFIX = 'savemytokens:triage:v1:' as const;
 
 let redis: Redis | null | undefined;
 
@@ -52,7 +52,7 @@ export async function getCachedTriage(
     const value = await client.get<TriageResult>(triageCacheKey(url));
     return value ?? null;
   } catch (err) {
-    console.warn('[prunr-api] triage cache get failed (fail open)', err);
+    console.warn('[savemytokens-api] triage cache get failed (fail open)', err);
     return null;
   }
 }
@@ -73,6 +73,6 @@ export async function setCachedTriage(
       ex: TRIAGE_CACHE_TTL_SECONDS,
     });
   } catch (err) {
-    console.warn('[prunr-api] triage cache set failed (fail open)', err);
+    console.warn('[savemytokens-api] triage cache set failed (fail open)', err);
   }
 }

@@ -1,10 +1,10 @@
-import type { TriageAction } from '@prunr-dev/types';
+import type { TriageAction } from '@savemytokens/types';
 
 /**
- * Honest “why try Prunr” cases from live validation (see docs/validation-findings.md).
+ * Honest “why try savemytokens” cases from live validation (see docs/validation-findings.md).
  * Linked into the homepage below the fold with `?url=` deep links.
  */
-export interface WhyPrunrCase {
+export interface WhySavemytokensCase {
   id: string;
   url: string;
   action: TriageAction;
@@ -12,7 +12,7 @@ export interface WhyPrunrCase {
   summary: string;
 }
 
-export const WHY_PRUNR_CASES: readonly WhyPrunrCase[] = [
+export const WHY_SAVEMYTOKENS_CASES: readonly WhySavemytokensCase[] = [
   {
     id: 'llms',
     url: 'https://react.dev',

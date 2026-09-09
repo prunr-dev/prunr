@@ -1,4 +1,4 @@
-import type { LlmsTxtDiscovery, LlmsTxtPath } from '@prunr-dev/types';
+import type { LlmsTxtDiscovery, LlmsTxtPath } from '@savemytokens/types';
 
 import {
   fetchOrigin,

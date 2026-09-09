@@ -1,11 +1,11 @@
 import type { NextConfig } from 'next';
 
 /**
- * Next.js config for the Prunr diagnostic visualizer.
- * Transpiles workspace packages so App Router can import `@prunr-dev/types`.
+ * Next.js config for the savemytokens diagnostic visualizer.
+ * Transpiles workspace packages so App Router can import `@savemytokens/types`.
  */
 const nextConfig: NextConfig = {
-  transpilePackages: ['@prunr-dev/types'],
+  transpilePackages: ['@savemytokens/types'],
 };
 
 export default nextConfig;

@@ -1,10 +1,10 @@
-# `@prunr-dev/types`
+# `@savemytokens/types`
 
-Universal TypeScript contracts shared by every Prunr entry point. **No runtime probe logic and no framework dependencies** — only types, small helpers, and constants.
+Universal TypeScript contracts shared by every savemytokens entry point. **No runtime probe logic and no framework dependencies** — only types, small helpers, and constants.
 
 ## Why this package exists
 
-REST, MCP, and the web UI must agree on the shape of a triage response and API errors. Putting those contracts in one leaf package avoids drift and keeps `@prunr-dev/core` free to evolve behind a stable surface.
+REST, MCP, and the web UI must agree on the shape of a triage response and API errors. Putting those contracts in one leaf package avoids drift and keeps `@savemytokens/core` free to evolve behind a stable surface.
 
 ## Files
 
@@ -24,8 +24,8 @@ REST, MCP, and the web UI must agree on the shape of a triage response and API e
 ## Usage
 
 ```ts
-import type { TriageResult } from '@prunr-dev/types';
-import { Problems, PROBLEM_JSON_MEDIA_TYPE } from '@prunr-dev/types';
+import type { TriageResult } from '@savemytokens/types';
+import { Problems, PROBLEM_JSON_MEDIA_TYPE } from '@savemytokens/types';
 
 const problem = Problems.invalidUrl('url query param is required');
 // Content-Type: application/problem+json
@@ -34,8 +34,8 @@ const problem = Problems.invalidUrl('url query param is required');
 ## Scripts
 
 ```bash
-pnpm --filter @prunr-dev/types build
-pnpm --filter @prunr-dev/types typecheck
+pnpm --filter @savemytokens/types build
+pnpm --filter @savemytokens/types typecheck
 ```
 
 Built output lands in `dist/` and is what other workspace packages import.

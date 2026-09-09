@@ -18,7 +18,7 @@ describe('looksLikeSpaShell', () => {
     const html = `<!doctype html>
 <html><body>
 <article>
-<h1>Getting started with Prunr</h1>
+<h1>Getting started with savemytokens</h1>
 <p>${'Substantial documentation text. '.repeat(20)}</p>
 </article>
 </body></html>`;

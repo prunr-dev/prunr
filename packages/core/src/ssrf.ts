@@ -1,6 +1,6 @@
 import { promises as dns } from 'node:dns';
 
-import type { ProbeErrorCode } from '@prunr-dev/types';
+import type { ProbeErrorCode } from '@savemytokens/types';
 
 /**
  * Outcome of Step A (SSRF / protocol sanitation).

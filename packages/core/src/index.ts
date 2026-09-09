@@ -1,5 +1,5 @@
 /**
- * @prunr-dev/core — pure pre-flight triage probe engine.
+ * @savemytokens/core — pure pre-flight triage probe engine.
  *
  * Apps (REST / MCP) should import {@link probeUrl} and map `TriageResult`
  * to their transport. Do not add framework adapters in this package.
