@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import { SiteNav } from '@/components/SiteNav';
+import { CodeCommand } from '@/components/CodeCommand';
 import { TriageForm } from '@/components/TriageForm';
 import { Button } from '@/components/ui/button';
 import { getApiBaseUrl } from '@/lib/api';
@@ -53,7 +54,8 @@ export default function HomePage() {
             >
               <Button
                 asChild
-                className="animate-pulse-primary px-6 font-display text-sm font-bold tracking-wide"
+                size="lg"
+                className="animate-pulse-primary font-display text-lg font-bold tracking-wide"
               >
                 <a href="#triage">Try it live</a>
               </Button>
@@ -119,9 +121,10 @@ export default function HomePage() {
             <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-foreground">
               REST
             </h3>
-            <pre className="mt-4 overflow-x-auto rounded-xl border border-highlight-high/40 bg-card/60 p-4 font-mono text-sm leading-relaxed text-foreground">
-              <code>{`curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"`}</code>
-            </pre>
+            <CodeCommand
+              className="mt-4"
+              code={`curl "https://api.savemytokens.dev/v1/triage?url=https://example.com"`}
+            />
 
             <h3 className="mt-12 font-display text-lg font-bold tracking-tight text-foreground">
               MCP

@@ -23,7 +23,7 @@ Operators and agent authors need a quick UI to see what savemytokens would recom
 
 ## Theme
 
-Corduroy dark palette is mapped onto shadcn CSS variables (`--background`, `--primary`, `--chart-*`, …). Fonts: **Space Mono** (display/mono) + **Nunito** (body) via `next/font`.
+Corduroy dark palette is mapped onto shadcn CSS variables (`--background`, `--primary`, `--chart-*`, …). Fonts: **Outfit** (display / labels) + **Poppins** (body) via `next/font`.
 
 ## How it talks to the engine
 

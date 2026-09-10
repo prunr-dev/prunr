@@ -64,7 +64,7 @@ export function SiteNav() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className={`rounded-lg px-3 py-2 font-sans text-sm font-medium transition-colors ${
+                  className={`rounded-full px-3.5 py-2.5 font-sans text-sm font-medium transition-colors ${
                     isActive
                       ? 'text-primary'
                       : 'text-subtle hover:text-foreground'
