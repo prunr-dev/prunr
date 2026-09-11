@@ -52,7 +52,10 @@ export function CodeCommand({
         className,
       )}
     >
-      <InputGroupAddon align="block-start" className="border-b border-highlight-high/30">
+      <InputGroupAddon
+        align="block-start"
+        className="border-b border-highlight-high/30"
+      >
         <InputGroupText className="font-display tracking-wide">
           <TerminalIcon aria-hidden />
           {label}
