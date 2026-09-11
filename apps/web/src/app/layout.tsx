@@ -1,21 +1,22 @@
 import type { Metadata } from 'next';
-import { Nunito, Space_Mono } from 'next/font/google';
+import { Outfit, Poppins } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css';
+import { cn } from '@/lib/utils';
 
-const spaceMono = Space_Mono({
+const outfit = Outfit({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-space-mono',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-outfit',
   display: 'swap',
 });
 
-const nunito = Nunito({
+const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-nunito',
+  variable: '--font-poppins',
   display: 'swap',
 });
 
@@ -33,8 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="corduroy"
-      className={`${spaceMono.variable} ${nunito.variable}`}
+      className={cn('dark', outfit.variable, poppins.variable, 'font-sans')}
     >
       <body className="font-sans antialiased">
         {children}

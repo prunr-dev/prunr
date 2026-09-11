@@ -45,14 +45,14 @@ export function SiteNav() {
       aria-label="Primary"
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
         scrolled
-          ? 'border-b border-highlight-high/40 bg-base-100/70 backdrop-blur-md'
+          ? 'border-b border-highlight-high/40 bg-background/70 backdrop-blur-md'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="mx-auto flex h-(--nav-height) w-full max-w-6xl items-center justify-between gap-6 px-6 sm:px-10">
         <a
           href="#top"
-          className="font-display text-sm font-bold tracking-[0.08em] text-base-content transition-colors hover:text-primary"
+          className="font-display text-sm font-bold tracking-[0.08em] text-foreground transition-colors hover:text-primary"
         >
           savemytokens
         </a>
@@ -64,10 +64,10 @@ export function SiteNav() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className={`rounded-lg px-3 py-2 font-sans text-sm font-medium transition-colors ${
+                  className={`rounded-full px-3.5 py-2.5 font-sans text-sm font-medium transition-colors ${
                     isActive
                       ? 'text-primary'
-                      : 'text-subtle hover:text-base-content'
+                      : 'text-subtle hover:text-foreground'
                   }`}
                 >
                   {link.label}

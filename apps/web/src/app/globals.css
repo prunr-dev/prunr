@@ -1,44 +1,49 @@
 @import 'tailwindcss';
-@plugin "daisyui" {
-  themes: corduroy --default;
-}
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
-@plugin "daisyui/theme" {
-  name: 'corduroy';
-  default: true;
-  color-scheme: dark;
-  --color-base-100: #1d1920;
-  --color-base-200: #261e2a;
-  --color-base-300: #2e2533;
-  --color-base-content: #cdc8d0;
-  --color-primary: #e99d90;
-  --color-primary-content: #1d1920;
-  --color-secondary: #c285b2;
-  --color-secondary-content: #1d1920;
-  --color-accent: #4b8686;
-  --color-accent-content: #cdc8d0;
-  --color-neutral: #443c4a;
-  --color-neutral-content: #cdc8d0;
-  --color-info: #d27f91;
-  --color-info-content: #1d1920;
-  --color-success: #4b8686;
-  --color-success-content: #cdc8d0;
-  --color-warning: #edb392;
-  --color-warning-content: #1d1920;
-  --color-error: #e06278;
-  --color-error-content: #1d1920;
-  --radius-selector: 1rem;
-  --radius-field: 0.75rem;
-  --radius-box: 1rem;
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-  --border: 1px;
-  --depth: 0;
-  --noise: 0;
-}
+@custom-variant dark (&:is(.dark *));
 
-:root {
-  --muted: #6f6373;
+/*
+ * Corduroy dark palette remapped onto shadcn semantic tokens.
+ * Site is always dark — values live on :root and .dark.
+ */
+:root,
+.dark {
+  --background: #1d1920;
+  --foreground: #cdc8d0;
+  --card: #261e2a;
+  --card-foreground: #cdc8d0;
+  --popover: #261e2a;
+  --popover-foreground: #cdc8d0;
+  --primary: #e99d90;
+  --primary-foreground: #1d1920;
+  --secondary: #c285b2;
+  --secondary-foreground: #1d1920;
+  --muted: #2e2533;
+  --muted-foreground: #887b8c;
+  --accent: #4b8686;
+  --accent-foreground: #cdc8d0;
+  --destructive: #e06278;
+  --border: color-mix(in srgb, #504757 70%, transparent);
+  --input: color-mix(in srgb, #504757 80%, transparent);
+  --ring: #e99d90;
+  --chart-1: #e99d90;
+  --chart-2: #4b8686;
+  --chart-3: #c285b2;
+  --chart-4: #edb392;
+  --chart-5: #d27f91;
+  --radius: 0.75rem;
+  --sidebar: #261e2a;
+  --sidebar-foreground: #cdc8d0;
+  --sidebar-primary: #e99d90;
+  --sidebar-primary-foreground: #1d1920;
+  --sidebar-accent: #2e2533;
+  --sidebar-accent-foreground: #cdc8d0;
+  --sidebar-border: color-mix(in srgb, #504757 70%, transparent);
+  --sidebar-ring: #e99d90;
+
+  /* Marketing chrome (retained) */
   --subtle: #887b8c;
   --highlight-low: #251f28;
   --highlight-med: #443c4a;
@@ -47,14 +52,52 @@
 }
 
 @theme inline {
-  --font-display: var(--font-space-mono), ui-monospace, monospace;
-  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-space-mono), ui-monospace, monospace;
-  --color-muted: var(--muted);
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
   --color-subtle: var(--subtle);
   --color-highlight-low: var(--highlight-low);
   --color-highlight-med: var(--highlight-med);
   --color-highlight-high: var(--highlight-high);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 html {
@@ -69,21 +112,21 @@ body {
 
 body {
   margin: 0;
-  color: var(--color-base-content);
+  color: var(--foreground);
   background:
     radial-gradient(
       1100px 560px at 8% -12%,
-      color-mix(in srgb, var(--color-primary) 14%, transparent),
+      color-mix(in srgb, var(--primary) 14%, transparent),
       transparent 55%
     ),
     radial-gradient(
       900px 480px at 100% 0%,
-      color-mix(in srgb, var(--color-accent) 12%, transparent),
+      color-mix(in srgb, var(--accent) 12%, transparent),
       transparent 52%
     ),
     linear-gradient(
       165deg,
-      var(--color-base-100) 0%,
+      var(--background) 0%,
       var(--highlight-low) 52%,
       #17131a 100%
     );
@@ -118,8 +161,7 @@ body::before {
 @keyframes pulse-primary {
   0%,
   100% {
-    box-shadow: 0 0 0 0
-      color-mix(in srgb, var(--color-primary) 40%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 40%, transparent);
   }
   50% {
     box-shadow: 0 0 0 8px transparent;
@@ -173,5 +215,17 @@ body::before {
   .animate-hero-fade,
   .hero-orb {
     animation: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }
